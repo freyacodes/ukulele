@@ -15,7 +15,7 @@ This is currently work-in-progress.
 ## Contributing
 Pull requests are welcome. Look through the issues and/or create one if you have an idea.
 
-Please make sure to update tests as appropriate.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Make your own changes (More info soon)
 - Change code

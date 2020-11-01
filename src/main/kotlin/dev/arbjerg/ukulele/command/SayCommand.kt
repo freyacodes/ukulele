@@ -12,7 +12,7 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class SayCommand(val players: PlayerRegistry, val apm: AudioPlayerManager) : Command("say") {
+class SayCommand : Command("say") {
     override suspend fun CommandContext.invoke() {
         reply(argumentText)
     }

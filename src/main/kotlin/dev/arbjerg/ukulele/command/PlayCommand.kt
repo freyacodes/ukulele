@@ -13,7 +13,10 @@ import net.dv8tion.jda.api.Permission
 import org.springframework.stereotype.Component
 
 @Component
-class PlayCommand(val players: PlayerRegistry, val apm: AudioPlayerManager) : Command("play", "p") {
+class PlayCommand(
+        val players: PlayerRegistry,
+        val apm: AudioPlayerManager
+) : Command("play", "p") {
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
         val identifier = argumentText
