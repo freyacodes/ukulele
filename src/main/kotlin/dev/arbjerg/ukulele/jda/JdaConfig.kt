@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent.*
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import javax.security.auth.login.LoginException
+import kotlin.concurrent.thread
 
 @Configuration
 class JdaConfig {
@@ -36,6 +37,12 @@ class JdaConfig {
         } catch (e: LoginException) {
             throw RuntimeException("Failed to log in to Discord! Is your token invalid?", e)
         }
+
+        Runtime.getRuntime().addShutdownHook(thread(start = false) {
+            shardManager.guildCache.forEach {
+                if (it.audioManager.isConnected) it.audioManager.closeAudioConnection()
+            }
+        })
 
         return shardManager
     }
