@@ -1,13 +1,13 @@
 # Ukulele
 ...and his music was electric.
 
-Ukulele is a bot made by the creator and collaborators of Fredboat. The concept for it came to light with simplicity in mind, since the original stack is engineered at servicing millions of servers.
+Ukulele is a bot made by the creator and collaborators of FredBoat. The concept is to replicate FredBoat while keeping it simple. The original stack is engineered for serving millions of servers, and is thus too complex to selfhost.
 
-This will benefit selfhosters and smaller servers.
+The bot is self-contained and only requires Java 11 to run.
 
 This is currently work-in-progress.
 
-## Self-hosting (Whenever public docker images are avaliable)
+## Host it yourself
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the credentials requested
 - Run `./ukulele` to build and run the application
