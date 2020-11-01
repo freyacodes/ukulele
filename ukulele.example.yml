@@ -1,3 +1,4 @@
 config:
   token: ""
   shards: 1
+  prefix: "::"
