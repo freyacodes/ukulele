@@ -35,7 +35,8 @@ class CommandManager(private val botProps: BotProps, commands: Collection<Comman
                 .takeWhile { !it.isWhitespace() }
 
         val command = registry[name] ?: return
-        val ctx = CommandContext(guild, channel, member, message, command)
+        val trigger = botProps.prefix + name
+        val ctx = CommandContext(guild, channel, member, message, command, trigger)
 
         log.info("Invocation: ${message.contentRaw}")
 
