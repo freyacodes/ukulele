@@ -10,8 +10,7 @@ This is currently work-in-progress.
 ## Self-hosting (Whenever public docker images are avaliable)
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the credentials requested
-- Run `docker-compose up -d` in the directory
-
+- Run `./ukulele` to build and run the application
 
 ## Contributing
 Pull requests are welcome. Look through the issues and/or create one if you have an idea.

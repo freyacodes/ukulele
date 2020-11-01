@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 ./gradlew build
-java -jar "`dirname "$0"`/build/libs/ukulele.jar"
+cd `dirname "$0"`
+java -jar "build/libs/ukulele.jar"
