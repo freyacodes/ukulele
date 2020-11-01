@@ -3,7 +3,6 @@ package dev.arbjerg.ukulele.audio
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventListener
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
@@ -32,6 +31,20 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
             return true
         }
         return false
+    }
+
+    fun skip(range: IntRange): List<AudioTrack> {
+        val skipped = mutableListOf<AudioTrack>()
+        var newRange = range
+        // Skip the first track if it is stored here
+        if (range.contains(0) && player.playingTrack != null) {
+            skipped.add(player.playingTrack)
+            // Reduce range if found
+            newRange = 0 until range.last
+        }
+        if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
+        if (skipped.first() == player.playingTrack) player.stopTrack()
+        return skipped
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {

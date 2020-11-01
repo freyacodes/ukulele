@@ -1,6 +1,5 @@
 package dev.arbjerg.ukulele.jda
 
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.Message
@@ -23,6 +22,11 @@ class CommandContext(
 
     fun reply(msg: String) {
         channel.sendMessage(msg).queue()
+    }
+
+    fun replyHelp() {
+        // TODO: Command specific help
+        reply("Bad usage")
     }
 
     fun handleException(t: Throwable) {
