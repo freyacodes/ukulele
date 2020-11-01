@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.sharding.ShardManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import net.dv8tion.jda.api.requests.GatewayIntent.*
+import net.dv8tion.jda.api.requests.restaction.MessageAction
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import javax.security.auth.login.LoginException
@@ -12,6 +13,11 @@ import kotlin.concurrent.thread
 
 @Configuration
 class JdaConfig {
+
+    init {
+        MessageAction.setDefaultMentions(emptyList())
+    }
+
     @Bean
     fun shardManager(botProps: BotProps, eventHandler: EventHandler): ShardManager {
         if (botProps.token.isBlank()) throw RuntimeException("Discord token not configured!")
