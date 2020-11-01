@@ -19,6 +19,7 @@ class CommandContext(
     val argumentText: String by lazy {
         message.contentRaw.drop(trigger.length).trim()
     }
+    val selfMember: Member get() = guild.selfMember
 
     fun reply(msg: String) {
         channel.sendMessage(msg).queue()

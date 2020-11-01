@@ -9,6 +9,7 @@ import dev.arbjerg.ukulele.audio.Player
 import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
+import net.dv8tion.jda.api.Permission
 import org.springframework.stereotype.Component
 
 @Component
@@ -29,7 +30,12 @@ class PlayCommand(val players: PlayerRegistry, val apm: AudioPlayerManager) : Co
         }
 
         if (ourVc != theirVc && theirVc != null)  {
-            // TODO: Check perms
+            val canTalk = selfMember.hasPermission(Permission.VOICE_CONNECT, Permission.VOICE_SPEAK)
+            if (!canTalk) {
+                reply("I need permission to connect and speak in ${theirVc.name}")
+                return false
+            }
+
             guild.audioManager.openAudioConnection(theirVc)
             guild.audioManager.sendingHandler = players[guild]
             return true
