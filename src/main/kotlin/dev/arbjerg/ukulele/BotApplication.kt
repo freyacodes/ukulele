@@ -1,4 +1,4 @@
-package dev.arbjerg.bot
+package dev.arbjerg.ukulele
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

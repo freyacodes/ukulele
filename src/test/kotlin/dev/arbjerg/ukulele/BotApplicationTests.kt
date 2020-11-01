@@ -1,4 +1,4 @@
-package dev.arbjerg.bot
+package dev.arbjerg.ukulele
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
