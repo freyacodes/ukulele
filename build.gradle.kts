@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     id("org.springframework.boot") version "2.3.5.RELEASE"
@@ -25,6 +26,17 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+}
+
+tasks.withType<BootJar> {
+    archiveFileName.set("ukulele.jar")
+    doLast {
+        //copies the jar into a place where the Dockerfile can find it easily (and users maybe too)
+        copy {
+            from("build/libs/FredBoat.jar")
+            into(".")
+        }
     }
 }
 

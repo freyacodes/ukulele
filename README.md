@@ -5,11 +5,7 @@ Ukulele is a bot made by the creator and collaborators of Fredboat. The concept 
 
 This will benefit selfhosters and smaller servers.
 
-
-## Invite
-
-[Some random link, if it is even public]
-
+This is currently work-in-progress.
 
 ## Self-hosting (Whenever public docker images are avaliable)
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
@@ -24,4 +20,4 @@ Please make sure to update tests as appropriate.
 
 ## Make your own changes (More info soon)
 - Change code
-- `./gradlew [task name tbd]`
+- `./gradlew clean build`
