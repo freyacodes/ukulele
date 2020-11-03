@@ -33,6 +33,18 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         return false
     }
 
+    fun getQueue(): List<AudioTrack> {
+        val tracks = ArrayList<AudioTrack>()
+
+        if (player.playingTrack != null)
+            tracks.add(player.playingTrack)
+
+        queue.getQueue().forEach {
+            t -> tracks.add(t)
+        }
+        return tracks
+    }
+
     fun skip(range: IntRange): List<AudioTrack> {
         val skipped = mutableListOf<AudioTrack>()
         var newRange = range

@@ -17,5 +17,7 @@ class TrackQueue {
         queue.removeAll(list)
         return list
     }
-
-}
+    fun getQueue(): List<AudioTrack>{
+        return queue
+    }
+} 
