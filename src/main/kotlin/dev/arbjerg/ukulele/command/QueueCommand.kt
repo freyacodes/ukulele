@@ -17,12 +17,12 @@ class QueueCommand (
         private val players: PlayerRegistry
 ) : Command("q") {
 
-    private val sb = StringBuilder()
     override suspend fun CommandContext.invoke() {
         reply(printQueue(players[guild].getQueue()))
     }
 
     private fun CommandContext.printQueue(queue: List<AudioTrack>): String {
+        val sb = StringBuilder()
         when (queue.size) {
             0 -> sb.append("Empty queue")
             else -> {
