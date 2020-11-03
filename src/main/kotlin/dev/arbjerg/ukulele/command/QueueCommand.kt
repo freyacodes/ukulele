@@ -20,8 +20,8 @@ class QueueCommand (
         when (queue.size) {
             0 -> sb.append("Empty queue")
             else -> {
-                queue.forEach {
-                    t -> sb.append("${t.info.title} \n")
+                queue.forEachIndexed {
+                    index, t -> sb.append("`[${index+1}]` ${t.info.title} \n")
                 }
             }
         }
