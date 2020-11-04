@@ -17,14 +17,13 @@ class QueueCommand (
 
     private fun CommandContext.printQueue(queue: List<AudioTrack>): String {
         val sb = StringBuilder()
-        when (queue.size) {
-            0 -> sb.append("Empty queue")
-            else -> {
-                queue.forEachIndexed {
-                    index, t -> sb.append("`[${index+1}]` ${t.info.title} \n")
-                }
-            }
+        if (queue.isEmpty())
+            return "Empty Queue"
+
+        queue.forEachIndexed { index, t -> 
+            sb.append("`[${index+1}]` ${t.info.title} \n")
         }
+
         return sb.toString()
     }
 }
