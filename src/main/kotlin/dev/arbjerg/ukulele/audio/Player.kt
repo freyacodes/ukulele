@@ -45,6 +45,16 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         return tracks
     }
 
+    fun getDuration(): Long {
+        var duration: Long = 0
+
+        if (player.playingTrack != null)
+            duration += player.playingTrack.info.length
+        
+        duration += queue.getDuration()
+        return duration
+    }
+
     fun skip(range: IntRange): List<AudioTrack> {
         val skipped = mutableListOf<AudioTrack>()
         var newRange = range

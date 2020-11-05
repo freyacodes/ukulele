@@ -17,7 +17,14 @@ class TrackQueue {
         queue.removeAll(list)
         return list
     }
-    fun getQueue(): List<AudioTrack>{
+    fun getQueue(): List<AudioTrack> {
         return queue
+    }
+    fun getDuration(): Long {
+        var totalLength: Long = 0
+        queue.forEach{ t ->
+            totalLength += t.info.length
+        }
+        return totalLength
     }
 } 
