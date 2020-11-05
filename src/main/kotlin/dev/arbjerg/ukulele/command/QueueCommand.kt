@@ -23,7 +23,6 @@ class QueueCommand (
             argumentText.isBlank() -> reply(printQueue(queue, 1))
             argumentText.toIntOrNull() != null -> reply(printQueue(queue, argumentText.toInt()))
         }
-
         response.clear()
     }
 
@@ -58,9 +57,7 @@ class QueueCommand (
         val pageCount: Int = (queue.size + pageSize - 1) / pageSize
         val pageIndex: Int 
 
-        response.append("Page **${pageIndex}** of **${pageCount}**\n\n")
-
-        // Handle edge cases
+        // Handle edge cases for arguments
         if (index == 0) 
             pageIndex = 1
         else if (index > pageCount) 
@@ -68,6 +65,8 @@ class QueueCommand (
         else
             pageIndex = index
 
+        //Add header
+        response.append("Page **${pageIndex}** of **${pageCount}**\n\n")
 
         // Preserve original indexes
         queue.forEachIndexed { ind, t ->
