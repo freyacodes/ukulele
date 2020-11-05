@@ -12,20 +12,28 @@ import java.util.concurrent.TimeUnit
 class QueueCommand (
         private val players: PlayerRegistry
 ) : Command("q") {
-    private val response = StringBuilder()
 
+    private val pageSize = 5
+    private val response = StringBuilder()
+    
     override suspend fun CommandContext.invoke() {
-        reply(printQueue(players[guild].getQueue()))
+        val queue = players[guild].getQueue()
+
+        when {
+            argumentText.isBlank() -> reply(printQueue(queue, 1))
+            argumentText.toIntOrNull() != null -> reply(printQueue(queue, argumentText.toInt()))
+        }
+
         response.clear()
     }
 
-    private fun CommandContext.printQueue(queue: List<AudioTrack>): String {
+    private fun CommandContext.printQueue(queue: List<AudioTrack>, pageIndex: Int): String {
         val totalDuration = players[guild].getDuration()
         
         if (queue.isEmpty())
             return "Not currently playing anything."
 
-        paginateQueue(queue)
+        paginateQueue(queue, pageIndex)
         response.append("\nThere are **${queue.size}** tracks with a remaining length of **${humanReadableTime(totalDuration)}** in the queue.")
 
         return response.toString()
@@ -46,14 +54,25 @@ class QueueCommand (
         return hms
     }
 
-    private fun CommandContext.paginateQueue(queue: List<AudioTrack>) {
+    private fun CommandContext.paginateQueue(queue: List<AudioTrack>, index: Int) {
+        val pageCount: Int = (queue.size + pageSize - 1) / pageSize
+        val pageIndex: Int 
 
-        if (queue.size <= 5) {
-            queue.forEachIndexed { index, t ->
-                response.append("`[${index+1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`\n")
-            }
-        } else {
-            response.append ("Pagination to be implemented.\n")
+        response.append("Page **${pageIndex}** of **${pageCount}**\n\n")
+
+        // Handle edge cases
+        if (index == 0) 
+            pageIndex = 1
+        else if (index > pageCount) 
+            pageIndex = pageCount
+        else
+            pageIndex = index
+
+
+        // Preserve original indexes
+        queue.forEachIndexed { ind, t ->
+            if (t in queue.chunked(pageSize)[pageIndex - 1]) 
+                response.append("`[${ind+1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`\n")
         }
     }
 }
