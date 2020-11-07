@@ -55,15 +55,15 @@ class PlayCommand(
         override fun trackLoaded(track: AudioTrack) {
             val started = player.add(track)
             if (started) {
-                ctx.reply("Started playing “${track.info.title}”")
+                ctx.reply("Started playing `${track.info.title}`")
             } else {
-                ctx.reply("Added “${track.info.title}”")
+                ctx.reply("Added `${track.info.title}`")
             }
         }
 
         override fun playlistLoaded(playlist: AudioPlaylist) {
             player.add(*playlist.tracks.toTypedArray())
-            ctx.reply("Added `${playlist.tracks.size}` tracks from “${playlist.name}”")
+            ctx.reply("Added `${playlist.tracks.size}` tracks from `${playlist.name}`")
         }
 
         override fun noMatches() {
