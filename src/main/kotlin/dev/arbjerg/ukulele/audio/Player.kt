@@ -21,6 +21,18 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
     private val frame: MutableAudioFrame = MutableAudioFrame().apply { setBuffer(buffer) }
     private val log: Logger = LoggerFactory.getLogger(Player::class.java)
 
+    val tracks: List<AudioTrack> get() {
+        val tracks = queue.tracks.toMutableList()
+        player.playingTrack?.let { tracks.add(0, it) }
+        return tracks
+    }
+
+    val remainingDuration: Long get() {
+        var duration = 0L
+        player.playingTrack?.let { duration = it.info.length - it.position }
+        return duration + queue.duration
+    }
+
     /**
      * @return whether or not we started playing
      */
@@ -33,27 +45,7 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         return false
     }
 
-    fun getQueue(): List<AudioTrack> {
-        val tracks = ArrayList<AudioTrack>()
 
-        if (player.playingTrack != null)
-            tracks.add(player.playingTrack)
-
-        queue.getQueue().forEach {
-            t -> tracks.add(t)
-        }
-        return tracks
-    }
-
-    fun getDuration(): Long {
-        var duration: Long = 0
-
-        if (player.playingTrack != null)
-            duration += player.playingTrack.info.length
-        
-        duration += queue.getDuration()
-        return duration
-    }
 
     fun skip(range: IntRange): List<AudioTrack> {
         val skipped = mutableListOf<AudioTrack>()
