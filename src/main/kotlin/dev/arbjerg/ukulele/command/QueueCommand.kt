@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component
 import java.util.concurrent.TimeUnit
 
 @Component
-class QueueCommand (
+class QueueCommand(
         private val players: PlayerRegistry
 ) : Command("queue", "q", "list", "l") {
 
     private val pageSize = 10
-    
+
     override suspend fun CommandContext.invoke() {
         reply(printQueue(players[guild], argumentText.toIntOrNull() ?: 1))
     }
@@ -46,12 +46,11 @@ class QueueCommand (
         //Add header
         append("Page **$pageIndex** of **$pageCount**\n\n")
 
-        val offset = pageSize * (pageIndex-1)
-        val pageEnd = offset + pageSize
+        val offset = pageSize * (pageIndex - 1)
+        val pageEnd = (offset + pageSize).coerceAtMost(tracks.size)
 
-        tracks.subList(offset,  if (pageEnd > tracks.size) tracks.size else pageEnd)
-                .forEachIndexed { i, t ->
-                    appendLine("`[${offset+i+1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`")
-                }
+        tracks.subList(offset, pageEnd).forEachIndexed { i, t ->
+            appendLine("`[${offset + i + 1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`")
+        }
     }
 }
