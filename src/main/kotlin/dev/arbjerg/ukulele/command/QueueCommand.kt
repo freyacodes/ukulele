@@ -13,7 +13,7 @@ class QueueCommand (
         private val players: PlayerRegistry
 ) : Command("queue", "q", "list", "l") {
 
-    private val pageSize = 5
+    private val pageSize = 3
     
     override suspend fun CommandContext.invoke() {
         reply(printQueue(players[guild], argumentText.toIntOrNull() ?: 1))
@@ -47,7 +47,9 @@ class QueueCommand (
         append("Page **$pageIndex** of **$pageCount**\n\n")
 
         val offset = pageSize * (pageIndex-1)
-        tracks.subList(pageSize * (pageIndex-1), pageSize * pageIndex)
+        val pageEnd = offset + pageSize
+
+        tracks.subList(offset,  if (pageEnd > tracks.size) tracks.size else pageEnd)
                 .forEachIndexed { i, t ->
                     appendLine("`[${offset+i+1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`")
                 }
