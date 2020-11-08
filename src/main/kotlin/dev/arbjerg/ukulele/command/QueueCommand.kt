@@ -23,7 +23,7 @@ class QueueCommand (
         val totalDuration = players[guild].remainingDuration
         val tracks = player.tracks
         if (tracks.isEmpty())
-            return "Not currently playing anything."
+            return "The queue is empty."
 
         return paginateQueue(tracks, pageIndex) +
                 "\nThere are **${tracks.size}** tracks with a remaining length of " +
