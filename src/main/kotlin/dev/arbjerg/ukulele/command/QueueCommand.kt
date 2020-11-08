@@ -13,7 +13,7 @@ class QueueCommand (
         private val players: PlayerRegistry
 ) : Command("queue", "q", "list", "l") {
 
-    private val pageSize = 3
+    private val pageSize = 10
     
     override suspend fun CommandContext.invoke() {
         reply(printQueue(players[guild], argumentText.toIntOrNull() ?: 1))
