@@ -20,6 +20,9 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
     private val buffer = ByteBuffer.allocate(1024)
     private val frame: MutableAudioFrame = MutableAudioFrame().apply { setBuffer(buffer) }
     private val log: Logger = LoggerFactory.getLogger(Player::class.java)
+    var volume: Int
+        get() = player.volume
+        set(value) { player.volume = value }
 
     val tracks: List<AudioTrack> get() {
         val tracks = queue.tracks.toMutableList()
