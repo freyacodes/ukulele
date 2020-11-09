@@ -8,13 +8,20 @@ import org.springframework.stereotype.Component
 @Component
 class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
     override suspend fun CommandContext.invoke() {
+        val player = players[guild]
+        if (argumentText.isBlank()) {
+            reply("The volume is set to ${player.volume}")
+            return
+        }
+
         val num = argumentText.removeSuffix("%").toIntOrNull()
         if (num == null) {
             replyHelp()
             return
         }
-        val player = players[guild]
+
+        val formerVolume = player.volume
         player.volume = num
-        reply("Set volume to ${player.volume}%")
+        reply("Changed volume from ${formerVolume}% to ${player.volume}%.")
     }
 }
