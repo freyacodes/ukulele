@@ -66,6 +66,11 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         return skipped
     }
 
+    fun stop() {
+        queue.clear()
+        player.stopTrack()
+    }
+
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         val new = queue.take() ?: return
         player.playTrack(new)
