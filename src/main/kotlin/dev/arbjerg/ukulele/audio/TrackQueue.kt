@@ -13,10 +13,8 @@ class TrackQueue {
     fun peek() = queue.firstOrNull()
 
     fun removeRange(range: IntRange): List<AudioTrack> {
-        val list = queue.subList(range.first, range.last)
+        val list = queue.slice(range)
         queue.removeAll(list)
         return list
     }
-
-
-} 
+}
