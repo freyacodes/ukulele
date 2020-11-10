@@ -9,7 +9,6 @@ import org.springframework.boot.runApplication
 class UkuleleApplication
 
 fun main(args: Array<String>) {
-
     System.setProperty("spring.config.name", "ukulele")
     System.setProperty("spring.config.title", "ukulele")
     runApplication<UkuleleApplication>(*args)

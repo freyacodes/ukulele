@@ -20,10 +20,16 @@ repositories {
 dependencies {
     implementation("net.dv8tion:JDA:4.2.0_214")
     implementation("com.sedmelluq:lavaplayer:1.3.55")
-    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+
+    runtimeOnly("com.h2database:h2")
+    implementation("io.r2dbc:r2dbc-h2")
+    implementation("org.flywaydb:flyway-core")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.0")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }

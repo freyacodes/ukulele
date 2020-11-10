@@ -2,3 +2,9 @@ config:
   token: ""
   shards: 1
   prefix: "::"
+
+spring:
+  r2dbc:
+    url: "r2dbc:h2:file//database.db"
+  flyway:
+    url: "jdbc:h2:file//database.db"

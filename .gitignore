@@ -1,3 +1,5 @@
+*.mv.db
+*.trace.db
 HELP.md
 .gradle
 build/

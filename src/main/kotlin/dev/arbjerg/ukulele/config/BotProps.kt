@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class BotProps(
         var token: String = "",
         var shards: Int = 1,
-        var prefix: String = "::"
+        var prefix: String = "::",
+        var database: String = "./database"
 )
