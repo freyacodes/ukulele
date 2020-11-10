@@ -54,7 +54,7 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         val skipped = mutableListOf<AudioTrack>()
         var newRange = rangeFirst .. rangeLast 
         // Skip the first track if it is stored here
-        if (range.contains(0) && player.playingTrack != null) {
+        if (newRange.contains(0) && player.playingTrack != null) {
             skipped.add(player.playingTrack)
             // Reduce range if found
             newRange = 0 .. rangeLast
