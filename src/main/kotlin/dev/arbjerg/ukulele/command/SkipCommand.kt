@@ -8,7 +8,7 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class SkipCommand(private val players: PlayerRegistry) : Command("skip") {
+class SkipCommand(private val players: PlayerRegistry) : Command("skip", "s") {
     override suspend fun CommandContext.invoke() {
         when {
             argumentText.isBlank() -> skipNext()
@@ -22,7 +22,8 @@ class SkipCommand(private val players: PlayerRegistry) : Command("skip") {
     }
 
     private fun CommandContext.skipIndex(i: Int) {
-        printSkipped(players[guild].skip(i..i))
+        val ind = (i-1).coerceAtLeast(0)
+        printSkipped(players[guild].skip(ind..ind))
     }
 
     private fun CommandContext.skipRange() {

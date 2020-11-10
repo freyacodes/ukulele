@@ -48,18 +48,20 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         return false
     }
 
-
-
     fun skip(range: IntRange): List<AudioTrack> {
+        val rangeFirst = range.first.coerceAtMost(queue.tracks.size)
+        val rangeLast = range.last.coerceAtMost(queue.tracks.size)
         val skipped = mutableListOf<AudioTrack>()
-        var newRange = range
+        var newRange = rangeFirst .. rangeLast 
         // Skip the first track if it is stored here
         if (range.contains(0) && player.playingTrack != null) {
             skipped.add(player.playingTrack)
             // Reduce range if found
-            newRange = 0 until range.last
+            newRange = 0 .. rangeLast
+        } else {
+            newRange = newRange.first - 1 .. newRange.last - 1
         }
-        if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
+        if (newRange.last > 0) skipped.addAll(queue.removeRange(newRange))
         if (skipped.first() == player.playingTrack) player.stopTrack()
         return skipped
     }
