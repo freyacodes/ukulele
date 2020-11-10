@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class CommandManager(private val botProps: BotProps, commands: Collection<Command>) {
+class CommandManager(private val contextBeans: CommandContext.Beans, private val botProps: BotProps, commands: Collection<Command>) {
 
     private final val registry: Map<String, Command>
     private val log: Logger = LoggerFactory.getLogger(CommandManager::class.java)
@@ -25,7 +25,11 @@ class CommandManager(private val botProps: BotProps, commands: Collection<Comman
         }
         registry = map
         log.info("Registered ${commands.size} commands with ${registry.size} names")
+        @Suppress("LeakingThis")
+        contextBeans.commandManager = this
     }
+
+    operator fun get(commandName: String) = registry[commandName]
 
     fun onMessage(guild: Guild, channel: TextChannel, member: Member, message: Message) {
         // TODO: Allow mentions
@@ -36,7 +40,7 @@ class CommandManager(private val botProps: BotProps, commands: Collection<Comman
 
         val command = registry[name] ?: return
         val trigger = botProps.prefix + name
-        val ctx = CommandContext(guild, channel, member, message, command, trigger)
+        val ctx = CommandContext(contextBeans, guild, channel, member, message, command, trigger)
 
         log.info("Invocation: ${message.contentRaw}")
 

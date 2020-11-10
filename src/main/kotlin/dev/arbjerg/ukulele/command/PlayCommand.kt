@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import dev.arbjerg.ukulele.audio.Player
 import dev.arbjerg.ukulele.audio.PlayerRegistry
+import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import net.dv8tion.jda.api.Permission
@@ -73,6 +74,10 @@ class PlayCommand(
         override fun loadFailed(exception: FriendlyException) {
             ctx.handleException(exception)
         }
+    }
 
+    override fun HelpContext.provideHelp() {
+        addUsage("<url>")
+        addDescription("Add the given track to the queue")
     }
 }

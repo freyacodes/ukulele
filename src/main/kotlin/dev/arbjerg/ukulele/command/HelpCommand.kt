@@ -6,13 +6,16 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class SayCommand : Command("say") {
+class HelpCommand : Command("help") {
     override suspend fun CommandContext.invoke() {
-        reply(argumentText)
+        val command = beans.commandManager[argumentText.trim()] ?: return replyHelp()
+        replyHelp(command)
     }
 
     override fun HelpContext.provideHelp() {
-        addUsage("<text>")
-        addDescription("Repeats the given text")
+        addUsage("")
+        addDescription("Displays general help. (unfinished)") // TODO
+        addUsage("<command>")
+        addDescription("Displays help about a specific command.")
     }
 }

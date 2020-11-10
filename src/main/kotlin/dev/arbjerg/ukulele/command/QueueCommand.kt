@@ -3,6 +3,7 @@ package dev.arbjerg.ukulele.command
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import dev.arbjerg.ukulele.audio.Player
 import dev.arbjerg.ukulele.audio.PlayerRegistry
+import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
@@ -52,5 +53,10 @@ class QueueCommand(
         tracks.subList(offset, pageEnd).forEachIndexed { i, t ->
             appendLine("`[${offset + i + 1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`")
         }
+    }
+
+    override fun HelpContext.provideHelp() {
+        addUsage("[page]")
+        addDescription("Displays the queue, by default for page 1")
     }
 }

@@ -2,6 +2,7 @@ package dev.arbjerg.ukulele.command
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import dev.arbjerg.ukulele.audio.PlayerRegistry
+import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
@@ -39,5 +40,13 @@ class SkipCommand(private val players: PlayerRegistry) : Command("skip") {
         0 -> replyHelp()
         1 -> reply("Skipped `${skipped.first().info.title}`")
         else -> reply("Skipped `${skipped.size} tracks`")
+    }
+
+    override fun HelpContext.provideHelp() {
+        addUsage("[count]")
+        addDescription("Skips a number of tracks.")
+        addDescription("Defaults to the first track if no number is given.")
+        addUsage("<from> <to>")
+        addDescription("Skips a range of tracks.")
     }
 }
