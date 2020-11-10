@@ -20,6 +20,6 @@ class StopCommand(val players: PlayerRegistry) : Command("stop") {
 
     override fun HelpContext.provideHelp() {
         addUsage("")
-        addDescription("Kill the thing")
+        addDescription("Clear all tracks from the queue and disconnect the player.")
     }
 }
