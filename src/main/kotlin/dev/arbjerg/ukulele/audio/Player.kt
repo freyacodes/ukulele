@@ -57,7 +57,7 @@ class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
         if (newRange.contains(0) && player.playingTrack != null) {
             skipped.add(player.playingTrack)
             // Reduce range if found
-            newRange = 0 .. rangeLast
+            newRange = 0 .. rangeLast - 1
         } else {
             newRange = newRange.first - 1 .. newRange.last - 1
         }

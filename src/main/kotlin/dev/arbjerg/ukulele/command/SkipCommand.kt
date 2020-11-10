@@ -28,12 +28,8 @@ class SkipCommand(private val players: PlayerRegistry) : Command("skip", "s") {
 
     private fun CommandContext.skipRange() {
         val args = argumentText.split("\\s+".toRegex())
-        val n1 = args[0].toIntOrNull()?.coerceAtLeast(0)
-        val n2 = args[0].toIntOrNull()?.coerceAtLeast(0)
-        if (n1 == null || n2 == null) {
-            replyHelp()
-            return
-        }
+        val n1 = (args[0].toInt() - 1).coerceAtLeast(0)
+        val n2 = (args[1].toInt() - 1).coerceAtLeast(0)
         printSkipped(players[guild].skip(n1..n2))
     }
 
