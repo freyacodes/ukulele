@@ -17,11 +17,11 @@ class QueueCommand(
     private val pageSize = 10
 
     override suspend fun CommandContext.invoke() {
-        reply(printQueue(players[guild], argumentText.toIntOrNull() ?: 1))
+        reply(printQueue(player, argumentText.toIntOrNull() ?: 1))
     }
 
     private fun CommandContext.printQueue(player: Player, pageIndex: Int): String {
-        val totalDuration = players[guild].remainingDuration
+        val totalDuration = player.remainingDuration
         val tracks = player.tracks
         if (tracks.isEmpty())
             return "The queue is empty."

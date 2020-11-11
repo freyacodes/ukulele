@@ -8,7 +8,7 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class SkipCommand(private val players: PlayerRegistry) : Command("skip", "s") {
+class SkipCommand : Command("skip", "s") {
     override suspend fun CommandContext.invoke() {
         when {
             argumentText.isBlank() -> skipNext()
@@ -18,19 +18,20 @@ class SkipCommand(private val players: PlayerRegistry) : Command("skip", "s") {
     }
 
     private fun CommandContext.skipNext() {
-        printSkipped(players[guild].skip(0..0))
+        printSkipped(player.skip(0..0))
     }
 
     private fun CommandContext.skipIndex(i: Int) {
         val ind = (i-1).coerceAtLeast(0)
-        printSkipped(players[guild].skip(ind..ind))
+        printSkipped(player.skip(ind..ind))
     }
 
     private fun CommandContext.skipRange() {
         val args = argumentText.split("\\s+".toRegex())
+
         val n1 = (args[0].toInt() - 1).coerceAtLeast(0)
         val n2 = (args[1].toInt() - 1).coerceAtLeast(0)
-        printSkipped(players[guild].skip(n1..n2))
+        printSkipped(player.skip(n1..n2))
     }
 
     private fun CommandContext.printSkipped(skipped: List<AudioTrack>) = when(skipped.size) {

@@ -31,13 +31,13 @@ class CommandContext(
     }
 
     val prefix = beans.botProps.prefix
+    val player: Player by lazy { beans.players.get(guild, guildProperties) }
 
     /** The command argument text after the trigger */
     val argumentText: String by lazy {
         message.contentRaw.drop(trigger.length).trim()
     }
     val selfMember: Member get() = guild.selfMember
-    val player: Player by lazy { beans.players[guild] }
 
     fun reply(msg: String) {
         channel.sendMessage(msg).queue()

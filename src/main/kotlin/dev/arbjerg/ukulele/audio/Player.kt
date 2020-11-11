@@ -7,22 +7,40 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame
+import dev.arbjerg.ukulele.data.GuildProperties
+import dev.arbjerg.ukulele.data.GuildPropertiesService
 import net.dv8tion.jda.api.audio.AudioSendHandler
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Component
 import java.nio.Buffer
 import java.nio.ByteBuffer
 
 
-class Player(apm: AudioPlayerManager) : AudioEventAdapter(), AudioSendHandler {
+class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAdapter(), AudioSendHandler {
+    @Component
+    class Beans(
+            val apm: AudioPlayerManager,
+            val guildProperties: GuildPropertiesService
+    )
+
+    private val guildId = guildProperties.guildId
     private val queue = TrackQueue()
-    private val player = apm.createPlayer().apply { addListener(this@Player) }
+    private val player = beans.apm.createPlayer().apply {
+        addListener(this@Player)
+        volume = guildProperties.volume
+    }
     private val buffer = ByteBuffer.allocate(1024)
     private val frame: MutableAudioFrame = MutableAudioFrame().apply { setBuffer(buffer) }
     private val log: Logger = LoggerFactory.getLogger(Player::class.java)
     var volume: Int
         get() = player.volume
-        set(value) { player.volume = value }
+        set(value) {
+            player.volume = value
+            beans.guildProperties.transform(guildId) {
+                it.volume = player.volume
+            }.subscribe()
+        }
 
     val tracks: List<AudioTrack> get() {
         val tracks = queue.tracks.toMutableList()

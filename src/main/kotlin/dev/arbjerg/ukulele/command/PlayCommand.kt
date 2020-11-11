@@ -21,7 +21,7 @@ class PlayCommand(
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
         val identifier = argumentText
-        apm.loadItem(identifier, Loader(this, players[guild], identifier))
+        apm.loadItem(identifier, Loader(this, player, identifier))
     }
 
     fun CommandContext.ensureVoiceChannel(): Boolean {
@@ -41,7 +41,7 @@ class PlayCommand(
             }
 
             guild.audioManager.openAudioConnection(theirVc)
-            guild.audioManager.sendingHandler = players[guild]
+            guild.audioManager.sendingHandler = player
             return true
         }
 
