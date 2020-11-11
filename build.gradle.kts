@@ -25,6 +25,8 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
+    implementation("com.github.ben-manes.caffeine:caffeine:2.8.6")
+
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

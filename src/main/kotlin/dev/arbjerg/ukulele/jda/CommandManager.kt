@@ -1,6 +1,7 @@
 package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.config.BotProps
+import dev.arbjerg.ukulele.data.GuildPropertiesService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.entities.Guild
@@ -12,7 +13,12 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class CommandManager(private val contextBeans: CommandContext.Beans, private val botProps: BotProps, commands: Collection<Command>) {
+class CommandManager(
+        private val contextBeans: CommandContext.Beans,
+        private val guildProperties: GuildPropertiesService,
+        private val botProps: BotProps,
+        commands: Collection<Command>
+) {
 
     private final val registry: Map<String, Command>
     private val log: Logger = LoggerFactory.getLogger(CommandManager::class.java)
@@ -32,19 +38,21 @@ class CommandManager(private val contextBeans: CommandContext.Beans, private val
     operator fun get(commandName: String) = registry[commandName]
 
     fun onMessage(guild: Guild, channel: TextChannel, member: Member, message: Message) {
-        // TODO: Allow mentions
-        if (!message.contentRaw.startsWith(botProps.prefix)) return
+        GlobalScope.launch {
+            // TODO: Allow mentions
+            val guildProperties = guildProperties.getAwait(guild.idLong)
+            if (!message.contentRaw.startsWith(botProps.prefix)) return@launch
 
-        val name = message.contentRaw.drop(botProps.prefix.length)
-                .takeWhile { !it.isWhitespace() }
+            val name = message.contentRaw.drop(botProps.prefix.length)
+                    .takeWhile { !it.isWhitespace() }
 
-        val command = registry[name] ?: return
-        val trigger = botProps.prefix + name
-        val ctx = CommandContext(contextBeans, guild, channel, member, message, command, trigger)
+            val command = registry[name] ?: return@launch
+            val trigger = botProps.prefix + name
+            val ctx = CommandContext(contextBeans, guildProperties, guild, channel, member, message, command, trigger)
 
-        log.info("Invocation: ${message.contentRaw}")
-
-        GlobalScope.launch { command.invoke0(ctx) }
+            log.info("Invocation: ${message.contentRaw}")
+            command.invoke0(ctx)
+        }
     }
 
 }

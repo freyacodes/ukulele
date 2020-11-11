@@ -3,6 +3,7 @@ package dev.arbjerg.ukulele.jda
 import dev.arbjerg.ukulele.audio.Player
 import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.config.BotProps
+import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.features.HelpContext
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component
 
 class CommandContext(
         val beans: Beans,
+        val guildProperties: GuildProperties,
         val guild: Guild,
         val channel: TextChannel,
         val invoker: Member,
