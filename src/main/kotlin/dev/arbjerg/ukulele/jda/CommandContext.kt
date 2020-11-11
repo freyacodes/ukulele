@@ -19,6 +19,7 @@ class CommandContext(
         val invoker: Member,
         val message: Message,
         val command: Command,
+        val prefix: String,
         /** Prefix + command name */
         val trigger: String
 ) {
@@ -30,7 +31,6 @@ class CommandContext(
         lateinit var commandManager: CommandManager
     }
 
-    val prefix = beans.botProps.prefix
     val player: Player by lazy { beans.players.get(guild, guildProperties) }
 
     /** The command argument text after the trigger */

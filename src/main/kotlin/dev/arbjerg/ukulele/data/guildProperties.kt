@@ -39,12 +39,15 @@ class GuildPropertiesService(private val repo: GuildPropertiesRepository) {
                 it
             }
             .doOnSuccess { cache.synchronous().put(it.guildId, it) }
+
+    suspend fun transformAwait(guildId: Long, func: (GuildProperties) -> Unit): GuildProperties = transform(guildId, func).awaitSingle()
 }
 
 @Table("guild_properties")
 data class GuildProperties(
         @Id val guildId: Long,
-        var volume: Int = 100
+        var volume: Int = 100,
+        var prefix: String? = null
 ) : Persistable<Long> {
     @Transient var new: Boolean = false
     override fun getId() = guildId

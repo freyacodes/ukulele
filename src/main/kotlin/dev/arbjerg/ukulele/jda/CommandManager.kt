@@ -41,14 +41,15 @@ class CommandManager(
         GlobalScope.launch {
             // TODO: Allow mentions
             val guildProperties = guildProperties.getAwait(guild.idLong)
-            if (!message.contentRaw.startsWith(botProps.prefix)) return@launch
+            val prefix = guildProperties.prefix ?: botProps.prefix
+            if (!message.contentRaw.startsWith(prefix)) return@launch
 
-            val name = message.contentRaw.drop(botProps.prefix.length)
+            val name = message.contentRaw.drop(prefix.length)
                     .takeWhile { !it.isWhitespace() }
 
             val command = registry[name] ?: return@launch
-            val trigger = botProps.prefix + name
-            val ctx = CommandContext(contextBeans, guildProperties, guild, channel, member, message, command, trigger)
+            val trigger = prefix + name
+            val ctx = CommandContext(contextBeans, guildProperties, guild, channel, member, message, command, prefix, trigger)
 
             log.info("Invocation: ${message.contentRaw}")
             command.invoke0(ctx)
