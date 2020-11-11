@@ -13,13 +13,13 @@ class DatabaseConfig(private val botProps: BotProps, private val env: Environmen
 
     @Bean
     fun connectionFactory(): ConnectionFactory = H2ConnectionFactory(H2ConnectionConfiguration.builder()
-            .file(botProps.database)
+            .file(botProps.database  + ";DATABASE_TO_UPPER=false")
             .build())
 
     @Bean(initMethod = "migrate")
     fun flyway(): Flyway {
         return Flyway(Flyway.configure().dataSource(
-                "jdbc:h2:" + botProps.database,
+                "jdbc:h2:" + botProps.database + ";DATABASE_TO_UPPER=false",
                 "",
                 ""
         ))

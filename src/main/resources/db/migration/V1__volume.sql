@@ -1,5 +1,5 @@
-create table GUILD_PROPERTIES
+create table guild_properties
 (
-    GUILD_ID bigint not null,
-    VOLUME  int    not null default 100
+    guild_id bigint not null,
+    volume  int    not null default 100
 );
