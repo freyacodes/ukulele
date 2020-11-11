@@ -14,11 +14,11 @@ This is currently work-in-progress.
 
 ## Host it yourself
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
-- Input the credentials requested
+- Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 - Run `./ukulele` to build and run the application
 
 ## Contributing
-Pull requests are welcome. Look through the issues and/or create one if you have an idea.
+Pull requests are welcome! Look through the issues and/or create one if you have an idea.
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md)
 
