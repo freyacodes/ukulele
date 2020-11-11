@@ -7,6 +7,11 @@ The bot is self-contained and only requires Java 11 to run.
 
 This is currently work-in-progress.
 
+## Features
+- Basic player commands (::play, ::list, ::skip)
+- Volume command
+- Zero-maintenance embedded database
+
 ## Host it yourself
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the credentials requested
