@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
 @Component
 class StopCommand(val players: PlayerRegistry) : Command("stop") {
     override suspend fun CommandContext.invoke() {
-        val player = players[guild]
         val skipped = player.tracks.size
 
         player.stop()
