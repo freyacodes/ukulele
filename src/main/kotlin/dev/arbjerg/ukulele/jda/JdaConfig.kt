@@ -1,6 +1,7 @@
 package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.config.BotProps
+import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.sharding.ShardManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,6 +22,8 @@ class JdaConfig {
     @Bean
     fun shardManager(botProps: BotProps, eventHandler: EventHandler): ShardManager {
         if (botProps.token.isBlank()) throw RuntimeException("Discord token not configured!")
+        val activity = if (botProps.game.isBlank()) Activity.playing("music") else Activity.playing(botProps.game)
+
 
         val intents = listOf(
                 GUILD_VOICE_STATES,
@@ -36,6 +39,7 @@ class JdaConfig {
                 .setAutoReconnect(true)
                 .setShardsTotal(botProps.shards)
                 .addEventListeners(eventHandler)
+                .setActivity(activity)
 
         val shardManager: ShardManager
         try {

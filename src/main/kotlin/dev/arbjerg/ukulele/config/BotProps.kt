@@ -7,5 +7,6 @@ class BotProps(
         var token: String = "",
         var shards: Int = 1,
         var prefix: String = "::",
-        var database: String = "./database"
+        var database: String = "./database",
+        var game: String = ""
 )
