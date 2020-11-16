@@ -54,6 +54,9 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         return duration + queue.duration
     }
 
+    val isPaused : Boolean
+        get() = player.isPaused
+
     /**
      * @return whether or not we started playing
      */
@@ -82,6 +85,14 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         if (newRange.last > 0) skipped.addAll(queue.removeRange(newRange))
         if (skipped.first() == player.playingTrack) player.stopTrack()
         return skipped
+    }
+
+    fun pause() {
+        player.isPaused = true
+    }
+
+    fun resume() {
+        player.isPaused = false
     }
 
     fun stop() {
