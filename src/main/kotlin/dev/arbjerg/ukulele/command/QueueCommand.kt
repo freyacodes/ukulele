@@ -6,8 +6,8 @@ import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
+import dev.arbjerg.ukulele.utils.TextUtils
 import org.springframework.stereotype.Component
-import java.util.concurrent.TimeUnit
 
 @Component
 class QueueCommand(
@@ -28,16 +28,7 @@ class QueueCommand(
 
         return paginateQueue(tracks, pageIndex) +
                 "\nThere are **${tracks.size}** tracks with a remaining length of " +
-                "**${humanReadableTime(totalDuration)}** in the queue."
-    }
-
-    private fun humanReadableTime(length: Long): String = if (length < 3600000) {
-        String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(length),
-                TimeUnit.MILLISECONDS.toSeconds(length) % TimeUnit.MINUTES.toSeconds(1))
-    } else {
-        String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(length),
-                TimeUnit.MILLISECONDS.toMinutes(length) % TimeUnit.HOURS.toMinutes(1),
-                TimeUnit.MILLISECONDS.toSeconds(length) % TimeUnit.MINUTES.toSeconds(1))
+                "**${TextUtils.humanReadableTime(totalDuration)}** in the queue."
     }
 
     private fun paginateQueue(tracks: List<AudioTrack>, index: Int) = buildString {
@@ -51,7 +42,7 @@ class QueueCommand(
         val pageEnd = (offset + pageSize).coerceAtMost(tracks.size)
 
         tracks.subList(offset, pageEnd).forEachIndexed { i, t ->
-            appendLine("`[${offset + i + 1}]` **${t.info.title}** `[${humanReadableTime(t.duration)}]`")
+            appendLine("`[${offset + i + 1}]` **${t.info.title}** `[${TextUtils.humanReadableTime(t.duration)}]`")
         }
     }
 
