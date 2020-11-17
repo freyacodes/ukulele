@@ -24,48 +24,55 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
 
     private fun buildEmbed(track: AudioTrack): MessageEmbed {
         return when(track){
-            is YoutubeAudioTrack -> getYoutubeEmbed(track)
-            is SoundCloudAudioTrack -> getSoundCloudEmbed(track)
-            else -> return getDefaultEmbed()
+            is YoutubeAudioTrack -> GetEmbed(track).youtube()
+            is SoundCloudAudioTrack -> GetEmbed(track).soundcloud()
+            else -> GetEmbed(track).default()
         }
     }
 
-    private fun getYoutubeEmbed(track: AudioTrack): MessageEmbed {
+    private class GetEmbed(val track: AudioTrack) {
+        val timeField = if (track.info.isStream) "[Live]" else "[${TextUtils.humanReadableTime(track.position)} / ${TextUtils.humanReadableTime(track.info.length)}]"
+
+        //Set up common parts of the embed
         val message = EmbedBuilder()
-        val timeField = "[${TextUtils.humanReadableTime(track.position)} / ${TextUtils.humanReadableTime(track.info.length)}]"
+                .setTitle(track.info.title, track.info.uri)
+                .setFooter("Source: ${track.sourceManager.sourceName}")
 
-        message.setColor(YOUTUBE_RED)
+        //Prepare embeds for overrides.
+        fun youtube(): MessageEmbed {
+            message.setColor(YOUTUBE_RED)
+            message.addField("Time", timeField, true)
+            return message.build()
+        }
 
-        message.setTitle(track.info.title, track.info.uri)
-        message.addField(
-                "Time",
-                timeField,
-                true
-        )
+        fun soundcloud(): MessageEmbed {
+            message.setColor(SOUNDCLOUD_ORANGE)
+            message.addField("Time", timeField, true)
+            return message.build()
+        }
 
-        return message.build()
+        fun twitch() :MessageEmbed {
+            message.setColor(TWITCH_PURPLE)
+            return message.build()
+        }
+
+        fun default(): MessageEmbed {
+            message.setTitle(track.info.title)  // Show just the title of the radio station. Weird uri jank.
+            message.setColor(DEFAULT_GREY)
+            message.addField("Time", timeField, true)
+            return message.build()
+        }
     }
-
-    private fun getSoundCloudEmbed(track: AudioTrack): MessageEmbed {
-        val message = EmbedBuilder()
-        message.setTitle("Not yet implemented.")
-        return message.build()
-    }
-
-    private fun getDefaultEmbed(): MessageEmbed {
-        val message = EmbedBuilder()
-        message.setTitle("Not yet implemented.")
-        return message.build()
-    }
-
 
     override fun HelpContext.provideHelp() {
         addUsage("")
         addDescription("Displays information about the currently playing song.")
     }
 
-    companion object {
-        private val YOUTUBE_RED = Color(205, 32, 31).rgb
-        private const val YOUTUBE_BASE_URL = "https://www.youtube.com/watch?v="
+    private companion object {
+        val YOUTUBE_RED = Color(205, 32, 31).rgb
+        val SOUNDCLOUD_ORANGE = Color(255, 85, 0).rgb
+        val TWITCH_PURPLE = Color(100, 65, 164).rgb
+        val DEFAULT_GREY = Color(100, 100, 100).rgb
     }
 }
