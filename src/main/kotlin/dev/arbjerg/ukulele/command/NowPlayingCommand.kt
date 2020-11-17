@@ -1,5 +1,7 @@
 package dev.arbjerg.ukulele.command
 
+import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioTrack
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
@@ -21,9 +23,9 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
     }
 
     private fun buildEmbed(track: AudioTrack): MessageEmbed {
-        return when(track.sourceManager.sourceName){
-            "youtube" -> getYoutubeEmbed(track)
-            "soundcloud" -> getSoundCloudEmbed(track)
+        return when(track){
+            is YoutubeAudioTrack -> getYoutubeEmbed(track)
+            is SoundCloudAudioTrack -> getSoundCloudEmbed(track)
             else -> return getDefaultEmbed()
         }
     }
@@ -59,7 +61,7 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
 
     override fun HelpContext.provideHelp() {
         addUsage("")
-        addDescription("Displays general help. (unfinished)")
+        addDescription("Displays information about the currently playing song.")
     }
 
     companion object {
