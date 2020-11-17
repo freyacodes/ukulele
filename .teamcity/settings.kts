@@ -1,6 +1,10 @@
-import jetbrains.buildServer.configs.kotlin.v2019_2.*
+
+import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2019_2.DslContext
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2019_2.project
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2019_2.version
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -27,7 +31,6 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2019.2"
 
 project {
-
     buildType(Build)
 }
 
@@ -38,6 +41,10 @@ object Build : BuildType({
         root(DslContext.settingsRoot)
     }
 
+    triggers {
+        vcs {}
+    }
+
     steps {
         gradle {
             tasks = "clean build"
@@ -46,8 +53,5 @@ object Build : BuildType({
         }
     }
 
-    triggers {
-        vcs {
-        }
-    }
+    artifactRules = "build/libs/ukulele.jar"
 })
