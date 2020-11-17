@@ -29,7 +29,7 @@ mkdir db && chown -R 999 db/
 
 # Copy ukulele config file
 cp ukulele.example.yml ukulele.yml
-# Open ukulele.yml and enter make config changes
+# Open ukulele.yml and make config changes
 
 # Now simply run run docker-compose 
 docker-compose up -d
