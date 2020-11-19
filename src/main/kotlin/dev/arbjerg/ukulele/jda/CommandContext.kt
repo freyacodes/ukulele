@@ -8,6 +8,7 @@ import dev.arbjerg.ukulele.features.HelpContext
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.TextChannel
 import org.springframework.stereotype.Component
 
@@ -41,6 +42,10 @@ class CommandContext(
 
     fun reply(msg: String) {
         channel.sendMessage(msg).queue()
+    }
+
+    fun replyEmbed(embed: MessageEmbed) {
+        channel.sendMessage(embed).queue()
     }
 
     fun replyHelp(forCommand: Command = command) {
