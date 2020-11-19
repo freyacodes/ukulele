@@ -17,6 +17,26 @@ This is currently work-in-progress.
 - Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 - Run `./ukulele` to build and run the application
 
+### Using Docker
+#### Requirements
+- Docker (Engine: 18.06.0+)
+- Docker-Compose
+
+#### Running
+```shell script
+# Create DB directory and own it to 999
+mkdir db && chown -R 999 db/
+
+# Copy ukulele config file
+cp ukulele.example.yml ukulele.yml
+# Open ukulele.yml and make config changes
+
+# Now simply run run docker-compose 
+docker-compose up -d
+```
+
+To run the container in detached mode simply add `-d` to the arguments of the run command.
+
 ## Contributing
 Pull requests are welcome! Look through the issues and/or create one if you have an idea.
 
