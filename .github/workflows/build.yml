@@ -37,4 +37,5 @@ jobs:
       with:
         tags: ghcr.io/frederikam/ukulele:${{env.BRANCH_NAME}}
         load: true
+        context: .
     - run: docker push ghcr.io/frederikam/ukulele:${{env.BRANCH_NAME}}
