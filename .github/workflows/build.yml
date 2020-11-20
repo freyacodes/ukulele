@@ -35,7 +35,7 @@ jobs:
     - name: Docker build and push
       uses: docker/build-push-action@v2.2.0
       with:
-        tags: ${{env.BRANCH_NAME}}
+        tags: ghcr.io/${{github.repository_owner}}/${{env.BRANCH_NAME}}
         push: true
         
 
