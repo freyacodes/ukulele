@@ -34,10 +34,10 @@ jobs:
         password: ${{secrets.DOCKER_TOKEN}}
     - uses: nelonoel/branch-name@v1.0.1
       name: Get branch name
-      if: github.repository == ‘Frederikam/ukulele’
+      if: github.repository == 'Frederikam/ukulele'
     - name: Docker build and push
       uses: docker/build-push-action@v2.2.0
-      if: github.repository == ‘Frederikam/ukulele’
+      if: github.repository == 'Frederikam/ukulele'
       with:
         tags: ghcr.io/frederikam/ukulele:${{env.BRANCH_NAME}}
         load: true
