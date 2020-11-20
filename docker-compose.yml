@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   ukulele:
-    image: ukulele #TODO: Change to real Image before merging
+    image: ghcr.io./frederikam/ukulele
     restart: always
     environment:
       CONFIG_DATABASE: ./db/database # Database location overwrite so mounting works
