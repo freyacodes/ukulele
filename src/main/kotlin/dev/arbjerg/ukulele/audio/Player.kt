@@ -50,7 +50,8 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     val remainingDuration: Long get() {
         var duration = 0L
-        player.playingTrack?.let { duration = it.info.length - it.position }
+        if (player.playingTrack != null && !player.playingTrack.info.isStream)
+            player.playingTrack?.let { duration = it.info.length - it.position }
         return duration + queue.duration
     }
 
