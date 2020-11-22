@@ -6,7 +6,7 @@ class TrackQueue {
 
     private val queue = mutableListOf<AudioTrack>()
     val tracks: List<AudioTrack> get() = queue
-    val duration: Long get() = queue.sumOf { it.info.length }
+    val duration: Long get() = queue.filterNot { it.info.isStream }.sumOf { it.info.length } // Streams don't have a valid time.
 
     fun add(vararg tracks: AudioTrack) { queue.addAll(tracks) }
     fun take() = queue.removeFirstOrNull()

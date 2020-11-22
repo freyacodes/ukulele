@@ -20,15 +20,22 @@ class QueueCommand(
         reply(printQueue(player, argumentText.toIntOrNull() ?: 1))
     }
 
-    private fun CommandContext.printQueue(player: Player, pageIndex: Int): String {
+    private fun printQueue(player: Player, pageIndex: Int): String {
         val totalDuration = player.remainingDuration
         val tracks = player.tracks
         if (tracks.isEmpty())
             return "The queue is empty."
 
-        return paginateQueue(tracks, pageIndex) +
-                "\nThere are **${tracks.size}** tracks with a remaining length of " +
-                "**${TextUtils.humanReadableTime(totalDuration)}** in the queue."
+        return buildString {
+            append(paginateQueue(tracks, pageIndex))
+            append("\nThere are **${tracks.size}** tracks with a remaining length of ")
+
+            if (tracks.any{ it.info.isStream }) {
+                append("**${TextUtils.humanReadableTime(totalDuration)}** in the queue excluding streams.")
+            } else {
+                append("**${TextUtils.humanReadableTime(totalDuration)}** in the queue.")
+            }
+        }
     }
 
     private fun paginateQueue(tracks: List<AudioTrack>, index: Int) = buildString {
@@ -42,7 +49,7 @@ class QueueCommand(
         val pageEnd = (offset + pageSize).coerceAtMost(tracks.size)
 
         tracks.subList(offset, pageEnd).forEachIndexed { i, t ->
-            appendLine("`[${offset + i + 1}]` **${t.info.title}** `[${TextUtils.humanReadableTime(t.duration)}]`")
+            appendLine("`[${offset + i + 1}]` **${t.info.title}** `[${if (t.info.isStream) "Live" else TextUtils.humanReadableTime(t.duration)}]`")
         }
     }
 
