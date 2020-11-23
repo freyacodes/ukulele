@@ -43,3 +43,4 @@ jobs:
         load: true
         context: .
     - run: docker push ghcr.io/frederikam/ukulele:${{env.BRANCH_NAME}}
+      if: github.repository == 'Frederikam/ukulele'
