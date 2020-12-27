@@ -15,7 +15,7 @@ This is currently work-in-progress.
 ## Host it yourself
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
-- Run `./ukulele` to build and run the application
+- Run `./ukulele` to build and run the application (Windows users use the .bat files via commandline)
 
 ## Contributing
 Pull requests are welcome! Look through the issues and/or create one if you have an idea.
