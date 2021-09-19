@@ -9,21 +9,16 @@ import org.springframework.stereotype.Component
 
 @Component
 class HelpCommand : Command("help") {
-    override suspend fun CommandContext.invoke() = when {
-        argumentText.isNotBlank() -> {
-            val command = beans.commandManager[argumentText.trim()]
-            if (command == null) {
-                replyHelp()
-            } else {
-                replyHelp(command)
-            }
-        }
-        else -> {
-            val commands = beans.commandManager.getCommands()
+    override suspend fun CommandContext.invoke() {
+        if (argumentText.isNotBlank()) {
+            // help for a specific command, or help syntax if invalid
+            replyHelp(beans.commandManager[argumentText.trim()] ?: this.command)
+        } else {
+            // list all commands and aliases
             val msg = MessageBuilder()
                 .append("Available commands:")
                 .appendCodeBlock(buildString {
-                    commands.forEach {
+                    beans.commandManager.getCommands().forEach {
                         appendLine((listOf(it.name) + it.aliases).joinToString())
                     }
                 }, "")
