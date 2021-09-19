@@ -34,7 +34,7 @@ class HelpCommand : Command("help") {
 
     override fun HelpContext.provideHelp() {
         addUsage("")
-        addDescription("Displays general help. (unfinished)") // TODO
+        addDescription("Displays a list of commands and aliases.")
         addUsage("<command>")
         addDescription("Displays help about a specific command.")
     }
