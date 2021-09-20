@@ -11,10 +11,8 @@ import org.springframework.stereotype.Component
 class HelpCommand : Command("help") {
     override suspend fun CommandContext.invoke() {
         if (argumentText.isNotBlank()) {
-            // help for a specific command, or help syntax if invalid
-            replyHelp(beans.commandManager[argumentText.trim()] ?: this.command)
+            replyHelp(beans.commandManager[argumentText.trim()] ?: command)
         } else {
-            // list all commands and aliases
             val msg = MessageBuilder()
                 .append("Available commands:")
                 .appendCodeBlock(buildString {
