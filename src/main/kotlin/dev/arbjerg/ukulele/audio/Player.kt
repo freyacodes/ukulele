@@ -58,7 +58,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     val isPaused : Boolean
         get() = player.isPaused
 
-    val isLooping : Boolean = false
+    var isLooping : Boolean = false
         
     /**
      * @return whether or not we started playing
