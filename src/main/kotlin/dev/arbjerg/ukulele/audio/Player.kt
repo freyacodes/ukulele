@@ -108,7 +108,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
-        if (isLooping) player.add(queue.peek())
+        if (isLooping) add(queue.peek())
         val new = queue.take() ?: return
         player.playTrack(new)
     }
