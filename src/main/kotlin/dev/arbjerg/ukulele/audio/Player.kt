@@ -58,7 +58,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     val isPaused : Boolean
         get() = player.isPaused
 
-    val loop : Boolean = False
+    val isLooping : Boolean = false
         
     /**
      * @return whether or not we started playing
@@ -104,12 +104,12 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     }
     
     fun loop() {
-        player.loop = not(player.loop)
+        player.isLooping = not(player.isLooping)
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         val new = queue.take() ?: return
-        if (player.loop) player.add(new)
+        if (player.isLooping) player.add(new)
         player.playTrack(new)
     }
 
