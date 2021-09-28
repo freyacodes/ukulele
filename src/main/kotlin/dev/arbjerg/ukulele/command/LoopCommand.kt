@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 @Component
 class LoopCommand : Command ("loop", "l") {
     override suspend fun CommandContext.invoke() {
-        player.loop()
-        if (player.isLooping) {reply("Looping is now enabled.")}
+        player.isRepeating = !player.isRepeating
+        if (player.isRepeating) {reply("Looping is now enabled.")}
         else{reply("Looping is now disabled.")}
     }
 

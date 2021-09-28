@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 @Component
 class QueueCommand(
         private val players: PlayerRegistry
-) : Command("queue", "q") {
+) : Command("queue", "q", "list", "l") {
 
     private val pageSize = 10
 

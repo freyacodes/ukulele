@@ -58,7 +58,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     val isPaused : Boolean
         get() = player.isPaused
 
-    var isLooping : Boolean = false
+    var isRepeating : Boolean = false
         
     /**
      * @return whether or not we started playing
@@ -87,7 +87,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         }
         if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
         if (skipped.first() == player.playingTrack) {
-            if(isLooping){
+            if(isRepeating){
                 queue.add(player.playingTrack.makeClone())
             }
             player.stopTrack()
@@ -107,13 +107,9 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         queue.clear()
         player.stopTrack()
     }
-    
-    fun loop() {
-        isLooping = !isLooping
-    }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
-        if (isLooping && endReason.mayStartNext) {
+        if (isRepeating && endReason.mayStartNext) {
             queue.add(track.makeClone())
         }
         val new = queue.take() ?: return
