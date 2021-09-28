@@ -88,7 +88,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
         if (skipped.first() == player.playingTrack) {
             if(isLooping){
-                queue.add(playingTrack.makeClone())
+                queue.add(player.playingTrack.makeClone())
             }
             player.stopTrack()
         }
