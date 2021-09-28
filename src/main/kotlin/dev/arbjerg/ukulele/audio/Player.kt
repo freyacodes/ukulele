@@ -104,7 +104,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     }
     
     fun loop() {
-        isLooping = not(isLooping)
+        isLooping = !isLooping
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
