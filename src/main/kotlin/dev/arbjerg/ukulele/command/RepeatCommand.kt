@@ -18,12 +18,16 @@ class RepeatCommand : Command ("repeat", "r", "loop") {
             player.repeatOne = argumentText.toBoolean()
         }
         
-        if (player.repeatOne) return reply("The current track will be repeated until toggled off.")
-        reply("Repeat has been turned off and the queue will proceed as normal.")
+        if (player.repeatOne) return reply("The current track will be repeated (Repeat One) until toggled off.")
+        reply("Repeat One has been turned off and the queue will proceed as normal.")
     }
 
     override fun HelpContext.provideHelp() {
         addUsage("")
-        addDescription("Toggles repeat on the current track.")
+        addDescription("Toggles the Repeat One setting for the player.")
+        addUsage("false (or any non true value)")
+        addDescription("Turns Repeat One off.")
+        addUsage("true")
+        addDescription("Turns Repeat One on.")
     }
 }
