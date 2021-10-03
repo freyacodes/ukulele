@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 class RepeatCommand : Command ("repeat", "r", "loop") {
     override suspend fun CommandContext.invoke() {
         if (argumentText.isBlank()) {
-            player.toggleRepeat()
+            player.toggleRepeatOne()
         } else {
             player.repeatOne = argumentText.toBoolean()
         }

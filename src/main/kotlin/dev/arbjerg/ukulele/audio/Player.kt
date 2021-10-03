@@ -103,7 +103,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         player.stopTrack()
     }
 
-    fun toggleRepeat() {
+    fun toggleRepeatOne() {
         repeatOne = !repeatOne
     }
 
