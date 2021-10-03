@@ -5,12 +5,21 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
+/**
+ * A Repeat command that is only 'Repeat One' right now.  In the future,
+ * it can be expanded to have a 'Repeat All'.
+ */
 @Component
 class RepeatCommand : Command ("repeat", "r", "loop") {
     override suspend fun CommandContext.invoke() {
-        player.toggleRepeat()
+        if (argumentText.isBlank()) {
+            player.toggleRepeat()
+        } else {
+            player.repeatOne = argumentText.toBoolean()
+        }
+        
         if (player.repeatOne) return reply("The current track will be repeated until toggled off.")
-        reply("Repeat has been toggled off and the queue will proceed as normal.")
+        reply("Repeat has been turned off and the queue will proceed as normal.")
     }
 
     override fun HelpContext.provideHelp() {
