@@ -9,7 +9,7 @@ class TrackQueue {
     val duration: Long get() = queue.filterNot { it.info.isStream }.sumOf { it.info.length } // Streams don't have a valid time.
 
     fun add(vararg tracks: AudioTrack) { queue.addAll(tracks) }
-    fun addNext(track: AudioTrack) { queue.add(0, track) }
+    fun push(track: AudioTrack) { queue.add(0, track) }
     fun take() = queue.removeFirstOrNull()
     fun peek() = queue.firstOrNull()
     fun clear() = queue.clear()
