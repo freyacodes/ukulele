@@ -19,7 +19,6 @@ class HelpCommand : Command("help") {
         addDescription("Displays help about a specific command.")
         addDescription("")
         addDescription("")
-        addDescription("Double colon is the command prefix (i.e. ::<command>).")
         addDescription("Here are the currently available commands for Ukulele:")
         addDescription("nowplaying / np")
         addDescription("pause")
