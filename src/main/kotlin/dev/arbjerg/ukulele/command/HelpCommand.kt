@@ -21,6 +21,7 @@ class HelpCommand : Command("help") {
         addUsage("play / p")
         addUsage("prefix")
         addUsage("queue / q / list / l")
+        addUsage("repeat / r / loop")
         addUsage("resume")
         addUsage("say")
         addUsage("skip / s")
