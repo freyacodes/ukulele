@@ -55,8 +55,10 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         return duration + queue.duration
     }
 
-    val isPaused : Boolean
+    val isPaused: Boolean
         get() = player.isPaused
+
+    var repeatOne: Boolean = false
 
     /**
      * @return whether or not we started playing
@@ -101,8 +103,17 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         player.stopTrack()
     }
 
+    fun toggleRepeat() {
+        repeatOne = !repeatOne
+    }
+
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
-        val new = queue.take() ?: return
+        var new: AudioTrack
+        if (repeatOne) {
+            queue.addNext(track.makeClone())
+        }
+        
+        new = queue.take() ?: return
         player.playTrack(new)
     }
 
