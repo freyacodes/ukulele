@@ -44,6 +44,10 @@ class CommandContext(
         channel.sendMessage(msg).queue()
     }
 
+    fun replyMsg(msg: Message) {
+        channel.sendMessage(msg).queue()
+    }
+
     fun replyEmbed(embed: MessageEmbed) {
         channel.sendMessage(embed).queue()
     }
