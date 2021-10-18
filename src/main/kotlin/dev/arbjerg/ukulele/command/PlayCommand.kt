@@ -11,6 +11,8 @@ import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import net.dv8tion.jda.api.Permission
+import java.net.URL
+import java.lang.Exception
 import org.springframework.stereotype.Component
 
 @Component
@@ -20,8 +22,14 @@ class PlayCommand(
 ) : Command("play", "p") {
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
-        val identifier = argumentText
-        apm.loadItem(identifier, Loader(this, player, identifier))
+        var identifier = argumentText
+        if (checkValidUrl(identifier)) {
+            apm.loadItem(identifier, Loader(this, player, identifier))
+        }
+        else {
+            identifier = "ytsearch:$identifier"
+            apm.loadItem(identifier, Loader(this, player, identifier))
+        }
     }
 
     fun CommandContext.ensureVoiceChannel(): Boolean {
@@ -48,6 +56,16 @@ class PlayCommand(
         return ourVc != null
     }
 
+    fun checkValidUrl(url: String): Boolean {
+        return try {
+            URL(url).toURI()
+            true
+        }
+        catch (e: Exception) {
+            false
+        }
+    }
+
     class Loader(
             private val ctx: CommandContext,
             private val player: Player,
@@ -63,8 +81,15 @@ class PlayCommand(
         }
 
         override fun playlistLoaded(playlist: AudioPlaylist) {
-            player.add(*playlist.tracks.toTypedArray())
-            ctx.reply("Added `${playlist.tracks.size}` tracks from `${playlist.name}`")
+            if (identifier.startsWith("ytsearch:")) {
+                val track = playlist.tracks[0]  // Pick first search result from Lavaplayer ytsearch playlist
+                player.add(track)
+                ctx.reply("Added `${track.info.title}`")
+            }
+            else {
+                player.add(*playlist.tracks.toTypedArray())
+                ctx.reply("Added `${playlist.tracks.size}` tracks from `${playlist.name}`")
+            }
         }
 
         override fun noMatches() {
