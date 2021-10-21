@@ -41,16 +41,29 @@ class CommandManager(
 
     fun onMessage(guild: Guild, channel: TextChannel, member: Member, message: Message) {
         GlobalScope.launch {
-            // TODO: Allow mentions
             val guildProperties = guildProperties.getAwait(guild.idLong)
             val prefix = guildProperties.prefix ?: botProps.prefix
-            if (!message.contentRaw.startsWith(prefix)) return@launch
 
-            val name = message.contentRaw.drop(prefix.length)
-                    .takeWhile { !it.isWhitespace() }
+            val name: String
+            val trigger: String
+
+            if (message.isMentioned(guild.getSelfMember(), Message.MentionType.USER)) {
+                // first match group: anything followed by a mention of us (e.g. "hey @ukulele")
+                // second match group: the rest of the message
+                val match = Regex("^(.*?<@!?${guild.getSelfMember().getId()}>\\s*)(.*)").find(message.contentRaw)
+                val (mention, commandText) = match?.destructured ?: return@launch
+
+                name = commandText.trim().takeWhile { !it.isWhitespace() }
+                trigger = mention + name
+            } else if (message.contentRaw.startsWith(prefix)) {
+                name = message.contentRaw.drop(prefix.length)
+                        .takeWhile { !it.isWhitespace() }
+                trigger = prefix + name
+            } else {
+                return@launch
+            }
 
             val command = registry[name] ?: return@launch
-            val trigger = prefix + name
             val ctx = CommandContext(contextBeans, guildProperties, guild, channel, member, message, command, prefix, trigger)
 
             log.info("Invocation: ${message.contentRaw}")
