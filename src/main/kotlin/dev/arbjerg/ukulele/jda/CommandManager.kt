@@ -47,10 +47,9 @@ class CommandManager(
             val name: String
             val trigger: String
 
-            if (message.isMentioned(guild.getSelfMember(), Message.MentionType.USER)) {
-                // match result: a mention of us at the beginning
-                val match = Regex("^(<@!?${guild.getSelfMember().getId()}>\\s*)").find(message.contentRaw)
-                val mention = match?.value ?: return@launch // no reply if mention is in the middle
+            // match result: a mention of us at the beginning
+            val mention = Regex("^(<@!?${guild.getSelfMember().getId()}>\\s*)").find(message.contentRaw)?.value
+            if (mention != null) {
                 val commandText = message.contentRaw.drop(mention.length)
                 if (commandText.isEmpty()) {
                     channel.sendMessage("The prefix here is `${prefix}`, or just mention me followed by a command.").queue()
