@@ -15,6 +15,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
     mavenCentral()
     maven { url = uri("https://m2.dv8tion.net/releases") }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
