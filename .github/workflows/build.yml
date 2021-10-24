@@ -25,3 +25,22 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+    - name: Docker Login
+      uses: docker/login-action@v1.6.0
+      if: github.repository == 'freyacodes/ukulele'
+      with:
+        registry: ghcr.io
+        username: ${{github.repository_owner}}
+        password: ${{secrets.DOCKER_TOKEN}}
+    - uses: nelonoel/branch-name@v1.0.1
+      name: Get branch name
+      if: github.repository == 'freyacodes/ukulele'
+    - name: Docker build and push
+      uses: docker/build-push-action@v2.2.0
+      if: github.repository == 'freyacodes/ukulele'
+      with:
+        tags: ghcr.io/freyacodes/ukulele:${{env.BRANCH_NAME}}
+        load: true
+        context: .
+    - run: docker push ghcr.io/freyacodes/ukulele:${{env.BRANCH_NAME}}
+      if: github.repository == 'freyacodes/ukulele'
