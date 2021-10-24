@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   ukulele:
-    image: ghcr.io./freyacodes/ukulele
+    image: ghcr.io/freyacodes/ukulele:docker
     restart: always
     environment:
       CONFIG_DATABASE: ./db/database # Database location overwrite so mounting works
