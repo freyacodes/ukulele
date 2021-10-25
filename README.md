@@ -13,6 +13,11 @@ This is currently work-in-progress.
 - Zero-maintenance embedded database
 
 ## Host it yourself
+
+### AUR Package ![AUR version](https://img.shields.io/aur/version/ukulele-git)
+https://aur.archlinux.org/packages/ukulele-git/
+
+### Manual
 - Install Java 11
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
