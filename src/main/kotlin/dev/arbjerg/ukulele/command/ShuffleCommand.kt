@@ -16,7 +16,7 @@ class ShuffleCommand {
 
         override fun HelpContext.provideHelp() {
             addUsage("")
-            addDescription("Pauses the playback.")
+            addDescription("Shuffles the remaining tracks in the list.")
         }
     }
 }
