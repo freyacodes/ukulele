@@ -11,7 +11,7 @@ class ShuffleCommand {
     class ShuffleCommand : Command("shuffle") {
         override suspend fun CommandContext.invoke() {
             player.shuffle()
-            reply("List has been shuffled.")
+            reply("This list has been shuffled.")
         }
 
         override fun HelpContext.provideHelp() {
