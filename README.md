@@ -43,7 +43,7 @@ To run the container in detached mode simply add `-d` to the arguments of the ru
 ### AUR Package ![AUR version](https://img.shields.io/aur/version/ukulele-git)
 https://aur.archlinux.org/packages/ukulele-git/
 
-The Arch package provides a systemd service for ukulele, and places the files for ukulele in the correct places accoring to the [Arch Package Guidelines](https://wiki.archlinux.org/title/Arch_package_guidelines#Directories).
+This Arch package provides a systemd service for ukulele, and places the files for ukulele in the correct places according to the [Arch Package Guidelines](https://wiki.archlinux.org/title/Arch_package_guidelines#Directories). This installation method is only relevant if you have an arch-based system.
 
 - Install the package either using an AUR helper (paru, yay, etc), or following the [guide](https://wiki.archlinux.org/title/Arch_User_Repository#Installing_and_upgrading_packages) on the Arch Wiki.
 - Edit the config file (`/etc/ukulele/ukulele.yml`) as required.
