@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  ukulele:
+    image: ghcr.io/freyacodes/ukulele:master
+    restart: always
+    environment:
+      CONFIG_DATABASE: ./db/database # Database location overwrite so mounting works
+    volumes:
+      - ./ukulele.yml:/opt/ukulele/ukulele.yml
+      - ./db:/opt/ukulele/db
