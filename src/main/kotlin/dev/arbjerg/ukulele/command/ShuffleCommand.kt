@@ -5,18 +5,15 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
-class ShuffleCommand {
+@Component
+class ShuffleCommand : Command("shuffle") {
+    override suspend fun CommandContext.invoke() {
+        player.shuffle()
+        reply("This list has been shuffled.")
+    }
 
-    @Component
-    class ShuffleCommand : Command("shuffle") {
-        override suspend fun CommandContext.invoke() {
-            player.shuffle()
-            reply("This list has been shuffled.")
-        }
-
-        override fun HelpContext.provideHelp() {
-            addUsage("")
-            addDescription("Shuffles the remaining tracks in the list.")
-        }
+    override fun HelpContext.provideHelp() {
+        addUsage("")
+        addDescription("Shuffles the remaining tracks in the list.")
     }
 }
