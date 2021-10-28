@@ -8,7 +8,7 @@ The bot is self-contained and only requires Java 11 to run.
 This is currently work-in-progress.
 
 ## Features
-- Basic player commands (::play, ::list, ::skip)
+- Basic player commands (::play, ::list, ::skip, ::shuffle)
 - Volume command
 - Zero-maintenance embedded database
 

@@ -103,6 +103,10 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         player.isPaused = false
     }
 
+    fun shuffle() {
+        queue.shuffle()
+    }
+
     fun stop() {
         queue.clear()
         player.stopTrack()
