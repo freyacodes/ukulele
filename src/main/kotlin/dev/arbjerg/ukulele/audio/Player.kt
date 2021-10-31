@@ -112,6 +112,10 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         player.stopTrack()
     }
 
+    fun seek(position: Long) {
+        player.playingTrack.position = position
+    }
+
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         if (isRepeating && endReason.mayStartNext) {
             queue.add(track.makeClone())
