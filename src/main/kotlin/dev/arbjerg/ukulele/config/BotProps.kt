@@ -8,5 +8,6 @@ class BotProps(
         var shards: Int = 1,
         var prefix: String = "::",
         var database: String = "./database",
-        var game: String = ""
+        var game: String = "",
+        var trackDurationLimit: Int = 0
 )

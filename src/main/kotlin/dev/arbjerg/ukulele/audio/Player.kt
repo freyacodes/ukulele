@@ -103,9 +103,17 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         player.isPaused = false
     }
 
+    fun shuffle() {
+        queue.shuffle()
+    }
+
     fun stop() {
         queue.clear()
         player.stopTrack()
+    }
+
+    fun seek(position: Long) {
+        player.playingTrack.position = position
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {

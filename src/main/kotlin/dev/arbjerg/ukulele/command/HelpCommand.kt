@@ -19,7 +19,7 @@ class HelpCommand : Command("help") {
                         appendLine((listOf(it.name) + it.aliases).joinToString())
                     }
                 }, "")
-                .append("\nUse `${trigger} <command>` to see more details.")
+                .append("\nUse \"${trigger} <command>\" to see more details.")
             replyMsg(msg.build())
         }
     }
