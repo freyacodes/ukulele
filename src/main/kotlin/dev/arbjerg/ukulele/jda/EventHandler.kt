@@ -1,6 +1,6 @@
 package dev.arbjerg.ukulele.jda
 
-import dev.arbjerg.ukulele.features.LeaveOnIdle
+import dev.arbjerg.ukulele.features.LeaveOnIdleService
 import net.dv8tion.jda.api.events.StatusChangeEvent
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent
@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class EventHandler(private val commandManager: CommandManager, private val leaveOnIdle: LeaveOnIdle) : ListenerAdapter() {
+class EventHandler(private val commandManager: CommandManager, private val leaveOnIdleService: LeaveOnIdleService) : ListenerAdapter() {
 
     private val log: Logger = LoggerFactory.getLogger(EventHandler::class.java)
 
@@ -25,10 +25,13 @@ class EventHandler(private val commandManager: CommandManager, private val leave
     }
 
     override fun onGuildVoiceJoin(event: GuildVoiceJoinEvent) {
-        leaveOnIdle.onVoiceJoin(event.guild, event.channelJoined, event.member)
+        log.info("Joining voice channel {} in guild {}", event.channelJoined, event.guild)
     }
 
     override fun onGuildVoiceLeave(event: GuildVoiceLeaveEvent) {
-        leaveOnIdle.onVoiceLeave(event.guild, event.channelLeft, event.member)
+        log.info("Leaving voice channel {} in guild {}", event.channelLeft, event.guild)
+
+        // clean up idle timer, if it exists
+        leaveOnIdleService.maybeDestroyTimer(event.guild)
     }
 }
