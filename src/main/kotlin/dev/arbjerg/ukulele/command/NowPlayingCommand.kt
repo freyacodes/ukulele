@@ -22,7 +22,7 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
         replyEmbed(buildEmbed(player.tracks[0]))
     }
 
-    private fun buildEmbed(track: AudioTrack): MessageEmbed {
+    fun buildEmbed(track: AudioTrack): MessageEmbed {
         return when(track){
             is YoutubeAudioTrack -> GetEmbed(track).youtube()
             is SoundCloudAudioTrack -> GetEmbed(track).soundcloud()

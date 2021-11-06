@@ -42,14 +42,17 @@ class CommandContext(
 
     fun reply(msg: String) {
         channel.sendMessage(msg).queue()
+        player.lastChannel = channel
     }
 
     fun replyMsg(msg: Message) {
         channel.sendMessage(msg).queue()
+        player.lastChannel = channel
     }
 
     fun replyEmbed(embed: MessageEmbed) {
         channel.sendMessage(embed).queue()
+        player.lastChannel = channel
     }
 
     fun replyHelp(forCommand: Command = command) {

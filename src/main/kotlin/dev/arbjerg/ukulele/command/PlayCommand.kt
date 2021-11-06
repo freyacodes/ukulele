@@ -23,6 +23,7 @@ class PlayCommand(
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
         val identifier = argumentText
+        players.get(guild, guildProperties).lastChannel = channel
         apm.loadItem(identifier, Loader(this, player, identifier))
     }
 
