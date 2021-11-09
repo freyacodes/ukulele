@@ -6,10 +6,10 @@ import net.dv8tion.jda.api.entities.Guild
 import org.springframework.stereotype.Service
 
 @Service
-class PlayerRegistry(val playerBeans: Player.Beans, val leaveOnIdleService: LeaveOnIdleService) {
+class PlayerRegistry(val playerBeans: Player.Beans) {
 
     private val players = mutableMapOf<Long, Player>()
 
-    fun get(guild: Guild, guildProperties: GuildProperties) = players.computeIfAbsent(guild.idLong) { Player(playerBeans, guildProperties, leaveOnIdleService, guild) }
+    fun get(guild: Guild, guildProperties: GuildProperties) = players.computeIfAbsent(guild.idLong) { Player(playerBeans, guildProperties, guild) }
 
 }

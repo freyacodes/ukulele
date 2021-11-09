@@ -30,8 +30,6 @@ class EventHandler(private val commandManager: CommandManager, private val leave
 
     override fun onGuildVoiceLeave(event: GuildVoiceLeaveEvent) {
         log.info("Leaving voice channel {} in guild {}", event.channelLeft, event.guild)
-
-        // clean up idle timer, if it exists
-        leaveOnIdleService.maybeDestroyTimer(event.guild)
+        leaveOnIdleService.destroyTimer(event.guild)
     }
 }
