@@ -50,6 +50,18 @@ This Arch package provides a systemd service for ukulele, and places the files f
     - As noted when installing the package, the discord bot token must be set in the config file ([guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html))
 - Start/enable the `ukulele.service` as required ([wiki](https://wiki.archlinux.org/title/Systemd#Using_units))
 
+## Spotify Support
+Only support for Spotify playlists has been implemented thus far. Both Spotify URL's (`https://open.spotify.com/playlist/...`) and URI's (`spotify:playlist:...`) are supported.
+
+To enable it, the `spotifyClientId` and `spotifyClientSecret` fields of `ukulele.yml` must be populated with the `clientID` and `clientSecret` of a Spotify application.
+See [Spotify's Guide](https://developer.spotify.com/documentation/general/guides/authorization/app-settings/) for creating an application.
+You don't need to “Configure” the application, just create a `clientId` and `clientSecret`.
+
+Once they are set, running the bot will have `Successfully loaded Spotify API` in the logs.
+
+NOTE: Spotify is only used to fetch metadata (titles, artists, etc), not the tracks themselves.
+Instead, the track title and artist name(s) are searched (format `$TITLE $ARTIST1 $ARTIST2 ...`) on YouTube Music, and the first result is used for the track itself.
+
 ## Contributing
 Pull requests are welcome! Look through the issues and/or create one if you have an idea.
 
