@@ -76,6 +76,11 @@ class PlayCommand(
                 return
             }
 
+            if (identifier.startsWith("ytsearch") || identifier.startsWith("ytmsearch") || identifier.startsWith("scsearch:")) {
+                this.trackLoaded(accepted.component1());
+                return
+            }
+
             player.add(*accepted.toTypedArray())
             ctx.reply(buildString {
                 append("Added `${accepted.size}` tracks from `${playlist.name}`.")
