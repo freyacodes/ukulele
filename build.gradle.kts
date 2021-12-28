@@ -44,7 +44,7 @@ tasks.withType<BootJar> {
     doLast {
         //copies the jar into a place where the Dockerfile can find it easily (and users maybe too)
         copy {
-            from("build/libs/FredBoat.jar")
+            from("build/libs/ukulele.jar")
             into(".")
         }
     }
