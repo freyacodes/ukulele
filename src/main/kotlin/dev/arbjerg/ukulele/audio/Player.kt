@@ -124,8 +124,8 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     }
 
     override fun onTrackStart(player: AudioPlayer, track: AudioTrack) {
-        if (beans.botProps.announceTrack) {
-            lastChannel?.sendMessage(beans.nowPlayingCommand.buildEmbed(track))!!.queue()
+        if (beans.botProps.announceTracks) {
+            lastChannel?.sendMessage(beans.nowPlayingCommand.buildEmbed(track))?.queue()
         }
     }
 
