@@ -23,6 +23,7 @@ dependencies {
     //implementation("com.sedmelluq:lavaplayer:1.3.78")
     implementation("com.github.walkyst:lavaplayer-fork:1.3.96")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("com.github.aikaterna:lavaplayer-natives:original-SNAPSHOT")
 
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
