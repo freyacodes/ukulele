@@ -15,12 +15,6 @@ class LeaveOnIdleService(private val scheduler: TaskScheduler, private val botPr
     private val log: Logger = LoggerFactory.getLogger(LeaveOnIdleService::class.java)
     private val timers: ConcurrentHashMap<Long, ScheduledFuture<*>> = ConcurrentHashMap()
 
-    inner class IdleTask(val guild: Guild) : Runnable {
-        override fun run() {
-            guild.audioManager.closeAudioConnection()
-        }
-    }
-
     /**
      * Create a new timer which will start counting from the current moment and cancel any existing timers
      * associated with this guild.
@@ -29,9 +23,10 @@ class LeaveOnIdleService(private val scheduler: TaskScheduler, private val botPr
         if (botProps.idleTimeMinutes <= 0) return
 
         log.info("Player for guild {} is idle, starting timeout of {} minutes", guild.idLong, botProps.idleTimeMinutes)
-        val task = IdleTask(guild)
         val instant = Instant.now().plusSeconds(60 * botProps.idleTimeMinutes.toLong())
-        val fut = scheduler.schedule(task, instant)
+        val fut = scheduler.schedule({
+            guild.audioManager.closeAudioConnection()
+        }, instant)
 
         if (timers.containsKey(guild.idLong)) {
             timers.replace(guild.idLong, fut)?.cancel(true)
