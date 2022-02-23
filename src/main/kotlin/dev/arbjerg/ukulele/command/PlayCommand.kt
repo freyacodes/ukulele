@@ -1,5 +1,7 @@
 package dev.arbjerg.ukulele.command
 
+import com.adamratzman.spotify.SpotifyAppApi
+import com.adamratzman.spotify.models.SpotifyUriException
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
@@ -12,18 +14,45 @@ import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import net.dv8tion.jda.api.Permission
+import org.apache.commons.validator.routines.UrlValidator
 import org.springframework.stereotype.Component
+import java.net.URL
 
 @Component
 class PlayCommand(
         val players: PlayerRegistry,
         val apm: AudioPlayerManager,
-        val botProps: BotProps
+        val botProps: BotProps,
+        val spotify: SpotifyAppApi?,
+        val urlValidator: UrlValidator
 ) : Command("play", "p") {
+    private companion object {
+        @JvmStatic val SEARCH_PREFIX_REGEX: Regex by lazy {
+            """^.+search:""".toRegex()
+        }
+    }
+
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
         val identifier = argumentText
         players.get(guild, guildProperties).lastChannel = channel
+
+        if (spotify != null) {
+            try {
+                val spotifyUri = spotifyUrlToUri(identifier) ?: identifier;
+                val searches = convertSpotifyUri(spotifyUri)
+                if (searches != null && searches.isNotEmpty()) {
+                    val logAddition = searches.size == 1;
+                    searches.forEach {
+                        apm.loadItemOrdered(identifier, it, Loader(this, player, it, logAddition, true))
+                    }
+                    reply("Added ${searches.size} tracks from ${getNameFromSpotifyUri(spotifyUri)}")
+                    return
+                }
+            } catch (_: SpotifyUriException) {
+                // Identifier isn't a spotify URI
+            }
+        }
         apm.loadItem(identifier, Loader(this, player, identifier))
     }
 
@@ -51,10 +80,77 @@ class PlayCommand(
         return ourVc != null
     }
 
+    private suspend fun convertSpotifyUri(identifier: String): List<String>? {
+        if (!identifier.startsWith("spotify:")) {
+            return null;
+        }
+
+        val split = identifier.split(":");
+        if (split.size != 3) {
+            return null;
+        }
+
+        when (split[1]) {
+            "playlist" -> {
+                val spotifyUri = spotify?.playlists?.getPlaylist(identifier);
+                if (spotifyUri != null) {
+                    return spotifyUri.tracks.getAllItemsNotNull()
+                        .filter { playlistTrack -> playlistTrack.isLocal == false }
+                        .filter { playlistTrack -> playlistTrack.track?.asTrack?.name != null }
+                        .map { playlistTrack -> "ytmsearch:" + playlistTrack.track?.asTrack?.name + " " + (playlistTrack.track?.asTrack?.artists?.joinToString(" ") { it.name } ?: "") }
+                }
+            }
+            else -> {return null}
+        }
+        return null
+    }
+
+    private suspend fun getNameFromSpotifyUri(identifier: String): String? {
+        if (!identifier.startsWith("spotify:")) {
+            return null;
+        }
+
+        val split = identifier.split(":");
+        if (split.size != 3) {
+            return null;
+        }
+
+        when (split[1]) {
+            "playlist" -> {
+                val spotifyUri = spotify?.playlists?.getPlaylist(identifier);
+                if (spotifyUri != null) {
+                    return spotifyUri.name
+                }
+            }
+            else -> {return null}
+        }
+        return null
+    }
+
+    private fun spotifyUrlToUri(identifier: String): String? {
+        if (!urlValidator.isValid(identifier)) {
+            return null
+        }
+
+        val url = URL(identifier)
+        if (!url.host.endsWith("spotify.com")) {
+            return null
+        }
+
+        val split = url.path.split("/").filter { it.isNotBlank() }
+        if (split.size != 2) {
+            return null
+        }
+
+        return "spotify:" + split[0] + ":" + split[1]
+    }
+
     inner class Loader(
             private val ctx: CommandContext,
             private val player: Player,
-            private val identifier: String
+            private val identifier: String,
+            private val logAddition: Boolean = true,
+            private val isSearch: Boolean = false
     ) : AudioLoadResultHandler {
         override fun trackLoaded(track: AudioTrack) {
             if (track.isOverDurationLimit) {
@@ -62,10 +158,12 @@ class PlayCommand(
                 return
             }
             val started = player.add(track)
-            if (started) {
-                ctx.reply("Started playing `${track.info.title}`")
-            } else {
-                ctx.reply("Added `${track.info.title}`")
+            if (logAddition) {
+                if (started) {
+                    ctx.reply("Started playing `${track.info.title}`")
+                } else {
+                    ctx.reply("Added `${track.info.title}`")
+                }
             }
         }
 
@@ -77,7 +175,7 @@ class PlayCommand(
                 return
             }
 
-            if (identifier.startsWith("ytsearch") || identifier.startsWith("ytmsearch") || identifier.startsWith("scsearch:")) {
+            if (isSearch || SEARCH_PREFIX_REGEX.matches(identifier)) {
                 this.trackLoaded(accepted.component1());
                 return
             }
@@ -90,7 +188,10 @@ class PlayCommand(
         }
 
         override fun noMatches() {
-            ctx.reply("Nothing found for “$identifier”")
+            ctx.reply(
+                "Nothing found for “${if (isSearch) {
+                    SEARCH_PREFIX_REGEX.replaceFirst(identifier, "")} else {identifier}}”"
+            )
         }
 
         override fun loadFailed(exception: FriendlyException) {

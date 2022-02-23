@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
-    id("org.springframework.boot") version "2.3.5.RELEASE"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
-    kotlin("jvm") version "1.4.10"
-    kotlin("plugin.spring") version "1.4.10"
+    id("org.springframework.boot") version "2.4.4"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    kotlin("jvm") version "1.4.32"
+    kotlin("plugin.spring") version "1.4.32"
 }
 
 group = "dev.arbjerg"
@@ -23,16 +23,18 @@ dependencies {
     //implementation("com.sedmelluq:lavaplayer:1.3.78")
     implementation("com.github.walkyst:lavaplayer-fork:1.3.96")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+    implementation("com.adamratzman:spotify-api-kotlin-core:3.8.5")
+    implementation("commons-validator:commons-validator:1.7")
 
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
-    implementation("com.github.ben-manes.caffeine:caffeine:2.8.6")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.0.5")
 
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
