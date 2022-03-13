@@ -24,7 +24,10 @@ class PlayCommand(
 ) : Command("play", "p") {
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
+
         var identifier = argumentText
+        players.get(guild, guildProperties).lastChannel = channel
+
         if (checkValidUrl(identifier)) {
             apm.loadItem(identifier, Loader(this, player, identifier))
         }
@@ -94,15 +97,11 @@ class PlayCommand(
                 return
             }
 
-            // Do ytsearch playlist behavior
-            if (identifier.startsWith("ytsearch:")) {
-                val track = accepted[0]  // Pick first search result from Lavaplayer ytsearch playlist
-                player.add(track)
-                ctx.reply("Added `${track.info.title}`")
+            if (identifier.startsWith("ytsearch") || identifier.startsWith("ytmsearch") || identifier.startsWith("scsearch:")) {
+                this.trackLoaded(accepted.component1());
                 return
             }
 
-            // Otherwise do default playlist behavior
             player.add(*accepted.toTypedArray())
             ctx.reply(buildString {
                 append("Added `${accepted.size}` tracks from `${playlist.name}`.")
