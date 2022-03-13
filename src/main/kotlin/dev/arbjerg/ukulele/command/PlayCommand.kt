@@ -12,8 +12,6 @@ import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import net.dv8tion.jda.api.Permission
-import java.net.URL
-import java.lang.Exception
 import org.springframework.stereotype.Component
 
 @Component
@@ -26,15 +24,12 @@ class PlayCommand(
         if (!ensureVoiceChannel()) return
 
         var identifier = argumentText
-        players.get(guild, guildProperties).lastChannel = channel
-
-        if (checkValidUrl(identifier)) {
-            apm.loadItem(identifier, Loader(this, player, identifier))
-        }
-        else {
+        if (!checkValidUrl(identifier)) {
             identifier = "ytsearch:$identifier"
-            apm.loadItem(identifier, Loader(this, player, identifier))
         }
+
+        players.get(guild, guildProperties).lastChannel = channel
+        apm.loadItem(identifier, Loader(this, player, identifier))
     }
 
     fun CommandContext.ensureVoiceChannel(): Boolean {
@@ -63,7 +58,7 @@ class PlayCommand(
 
     fun checkValidUrl(url: String): Boolean {
         return url.startsWith("http://")
-                || url.startsWith("https://");
+                || url.startsWith("https://")
     }
 
     inner class Loader(
