@@ -62,13 +62,8 @@ class PlayCommand(
     }
 
     fun checkValidUrl(url: String): Boolean {
-        return try {
-            URL(url).toURI()
-            true
-        }
-        catch (e: Exception) {
-            false
-        }
+        return url.startsWith("http://")
+                || url.startsWith("https://");
     }
 
     inner class Loader(
