@@ -7,9 +7,12 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame
+import dev.arbjerg.ukulele.command.NowPlayingCommand
+import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.data.GuildPropertiesService
 import net.dv8tion.jda.api.audio.AudioSendHandler
+import net.dv8tion.jda.api.entities.TextChannel
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -21,7 +24,9 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     @Component
     class Beans(
             val apm: AudioPlayerManager,
-            val guildProperties: GuildPropertiesService
+            val guildProperties: GuildPropertiesService,
+            val nowPlayingCommand: NowPlayingCommand,
+            val botProps: BotProps
     )
 
     private val guildId = guildProperties.guildId
@@ -59,7 +64,9 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         get() = player.isPaused
 
     var isRepeating : Boolean = false
-        
+
+    var lastChannel: TextChannel? = null
+
     /**
      * @return whether or not we started playing
      */
@@ -114,6 +121,12 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     fun seek(position: Long) {
         player.playingTrack.position = position
+    }
+
+    override fun onTrackStart(player: AudioPlayer, track: AudioTrack) {
+        if (beans.botProps.announceTracks) {
+            lastChannel?.sendMessage(beans.nowPlayingCommand.buildEmbed(track))?.queue()
+        }
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
