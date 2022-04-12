@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import dev.arbjerg.ukulele.audio.Player
 import dev.arbjerg.ukulele.audio.PlayerRegistry
+import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
@@ -16,11 +17,13 @@ import org.springframework.stereotype.Component
 @Component
 class PlayCommand(
         val players: PlayerRegistry,
-        val apm: AudioPlayerManager
+        val apm: AudioPlayerManager,
+        val botProps: BotProps
 ) : Command("play", "p") {
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
         val identifier = argumentText
+        players.get(guild, guildProperties).lastChannel = channel
         apm.loadItem(identifier, Loader(this, player, identifier))
     }
 
@@ -48,12 +51,16 @@ class PlayCommand(
         return ourVc != null
     }
 
-    class Loader(
+    inner class Loader(
             private val ctx: CommandContext,
             private val player: Player,
             private val identifier: String
     ) : AudioLoadResultHandler {
         override fun trackLoaded(track: AudioTrack) {
+            if (track.isOverDurationLimit) {
+                ctx.reply("Refusing to play `${track.info.title}` because it is over ${botProps.trackDurationLimit} minutes long")
+                return
+            }
             val started = player.add(track)
             if (started) {
                 ctx.reply("Started playing `${track.info.title}`")
@@ -63,8 +70,23 @@ class PlayCommand(
         }
 
         override fun playlistLoaded(playlist: AudioPlaylist) {
-            player.add(*playlist.tracks.toTypedArray())
-            ctx.reply("Added `${playlist.tracks.size}` tracks from `${playlist.name}`")
+            val accepted = playlist.tracks.filter { !it.isOverDurationLimit }
+            val filteredCount = playlist.tracks.size - accepted.size
+            if (accepted.isEmpty()) {
+                ctx.reply("Refusing to play $filteredCount tracks because because they are all over ${botProps.trackDurationLimit} minutes long")
+                return
+            }
+
+            if (identifier.startsWith("ytsearch") || identifier.startsWith("ytmsearch") || identifier.startsWith("scsearch:")) {
+                this.trackLoaded(accepted.component1());
+                return
+            }
+
+            player.add(*accepted.toTypedArray())
+            ctx.reply(buildString {
+                append("Added `${accepted.size}` tracks from `${playlist.name}`.")
+                if (filteredCount != 0) append(" `$filteredCount` tracks have been ignored because they are over ${botProps.trackDurationLimit} minutes long")
+            })
         }
 
         override fun noMatches() {
@@ -74,6 +96,9 @@ class PlayCommand(
         override fun loadFailed(exception: FriendlyException) {
             ctx.handleException(exception)
         }
+
+        private val AudioTrack.isOverDurationLimit: Boolean
+            get() = botProps.trackDurationLimit > 0 && botProps.trackDurationLimit <= (duration / 60000)
     }
 
     override fun HelpContext.provideHelp() {

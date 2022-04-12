@@ -1,6 +1,8 @@
 config:
-  token: ""
-  shards: 1
-  prefix: "::"
+  token: ""              # Your discord bot token
+  shards: 1              # Number of shards to create. 1 works for most bots
+  prefix: "::"           # Prefix to invoke commands with
   database: "./database" # Database filename
-  game: ""
+  game: ""               # Status message shown when your bot is online
+  trackDurationLimit: 0  # Maximum limit of track duration in minutes. Set to 0 for unlimited
+  announceTracks: false  # Announce the start of a track

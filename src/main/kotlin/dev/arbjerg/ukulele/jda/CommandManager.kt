@@ -37,18 +37,36 @@ class CommandManager(
 
     operator fun get(commandName: String) = registry[commandName]
 
+    fun getCommands() = registry.values.distinct()
+
     fun onMessage(guild: Guild, channel: TextChannel, member: Member, message: Message) {
         GlobalScope.launch {
-            // TODO: Allow mentions
             val guildProperties = guildProperties.getAwait(guild.idLong)
             val prefix = guildProperties.prefix ?: botProps.prefix
-            if (!message.contentRaw.startsWith(prefix)) return@launch
 
-            val name = message.contentRaw.drop(prefix.length)
-                    .takeWhile { !it.isWhitespace() }
+            val name: String
+            val trigger: String
+
+            // match result: a mention of us at the beginning
+            val mention = Regex("^(<@!?${guild.getSelfMember().getId()}>\\s*)").find(message.contentRaw)?.value
+            if (mention != null) {
+                val commandText = message.contentRaw.drop(mention.length)
+                if (commandText.isEmpty()) {
+                    channel.sendMessage("The prefix here is `${prefix}`, or just mention me followed by a command.").queue()
+                    return@launch
+                }
+
+                name = commandText.trim().takeWhile { !it.isWhitespace() }
+                trigger = mention + name
+            } else if (message.contentRaw.startsWith(prefix)) {
+                name = message.contentRaw.drop(prefix.length)
+                        .takeWhile { !it.isWhitespace() }
+                trigger = prefix + name
+            } else {
+                return@launch
+            }
 
             val command = registry[name] ?: return@launch
-            val trigger = prefix + name
             val ctx = CommandContext(contextBeans, guildProperties, guild, channel, member, message, command, prefix, trigger)
 
             log.info("Invocation: ${message.contentRaw}")
