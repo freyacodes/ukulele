@@ -65,7 +65,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     var repeatOne: Boolean = false
 
-    var isLooping : Boolean = false
+    var isLooping: Boolean = false
 
     var lastChannel: TextChannel? = null
 
