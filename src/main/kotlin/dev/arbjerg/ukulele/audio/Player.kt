@@ -136,7 +136,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
-        if (endReason != null && endReason.mayStartNext) {
+        if (endReason.mayStartNext) {
             if (repeatOne) {
                 queue.push(track.makeClone())
             } else if (isLooping) {
