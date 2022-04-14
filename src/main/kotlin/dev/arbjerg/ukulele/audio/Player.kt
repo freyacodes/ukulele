@@ -64,7 +64,6 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         get() = player.isPaused
 
     var repeatOne: Boolean = false
-
     var isLooping: Boolean = false
 
     var lastChannel: TextChannel? = null
@@ -101,6 +100,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
             }
             player.stopTrack()
         }
+        repeatOne = false
         return skipped
     }
 
