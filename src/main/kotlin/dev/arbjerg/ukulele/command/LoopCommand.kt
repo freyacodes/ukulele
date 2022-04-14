@@ -10,7 +10,7 @@ class LoopCommand : Command ("loop", "l", "loopqueue", "lq") {
     override suspend fun CommandContext.invoke() {
         player.isLooping = !player.isLooping
         if (player.isLooping) {reply("Queue looping is now enabled.")}
-        else{reply("Queue looping is now disabled.")}
+        else {reply("Queue looping is now disabled.")}
     }
 
     override fun HelpContext.provideHelp() {
