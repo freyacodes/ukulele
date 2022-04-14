@@ -138,7 +138,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         if (endReason.mayStartNext) {
             if (repeatOne) {
-                queue.push(track.makeClone())
+                queue.addFirst(track.makeClone())
             } else if (isLooping) {
                 queue.add(track.makeClone())
             }
