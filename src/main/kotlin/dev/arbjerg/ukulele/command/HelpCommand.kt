@@ -37,7 +37,7 @@ class HelpCommand : Command("help") {
         addDescription("pause")
         addDescription("play / p")
         addDescription("prefix")
-        addDescription("queue / q / list")
+        addDescription("queue / q / list / li")
         addDescription("repeat / r / repeatone / ro")
         addDescription("resume")
         addDescription("say")
