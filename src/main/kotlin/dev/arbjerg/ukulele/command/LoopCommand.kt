@@ -6,7 +6,7 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class LoopCommand : Command ("loop", "l", "loopqueue") {
+class LoopCommand : Command ("loop", "l", "loopqueue", "lq") {
     override suspend fun CommandContext.invoke() {
         player.isLooping = !player.isLooping
         if (player.isLooping) {reply("Queue looping is now enabled.")}

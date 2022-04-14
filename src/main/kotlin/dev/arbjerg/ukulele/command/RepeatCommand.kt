@@ -6,7 +6,7 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class RepeatCommand : Command ("repeat", "r", "repeatone") {
+class RepeatCommand : Command ("repeat", "r", "repeatone", "ro") {
    override suspend fun CommandContext.invoke() {
        if (argumentText.isBlank()) {
            player.toggleRepeatOne()
