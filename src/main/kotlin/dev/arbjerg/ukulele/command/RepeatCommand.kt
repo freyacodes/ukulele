@@ -6,24 +6,24 @@ import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
 @Component
-class RepeatCommand : Command ("repeat", "r", "repeatone", "ro") {
+class RepeatCommand : Command ("repeat", "r") {
    override suspend fun CommandContext.invoke() {
        if (argumentText.isBlank()) {
-           player.toggleRepeatOne()
+           player.toggleRepeatTrack()
        } else {
-           player.repeatOne = argumentText.toBoolean()
+           player.repeatTrack = argumentText.toBoolean()
        }
        
-       if (player.repeatOne) return reply("The current track will be repeated until toggled off or skipped.")
-       reply("Repeat (one) has been turned off and the queue will proceed as normal.")
+       if (player.repeatTrack) return reply("The current track will be repeated until repeat is turned off or the track is skipped.")
+       reply("Repeat has been turned off and the queue will proceed as normal.")
    }
 
    override fun HelpContext.provideHelp() {
        addUsage("")
-       addDescription("Toggles the Repeat (one) setting for the player.")
+       addDescription("Toggles the repeat track setting for the player.")
        addUsage("false (or any non true value)")
-       addDescription("Turns Repeat (one) off.")
+       addDescription("Turns repeat track off.")
        addUsage("true")
-       addDescription("Turns Repeat (one) on.")
+       addDescription("Turns repeat track on.")
    }
 }

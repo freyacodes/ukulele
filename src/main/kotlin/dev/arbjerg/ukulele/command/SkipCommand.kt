@@ -18,7 +18,11 @@ class SkipCommand : Command("skip", "s") {
     }
 
     private fun CommandContext.skipNext() {
+        val repeatTrackPreSkip = player.repeatTrack
         printSkipped(player.skip(0..0))
+        if (repeatTrackPreSkip && !player.repeatTrack) {
+            reply("Repeat track was turned off on skip.")
+        }
     }
 
     private fun CommandContext.skipIndex(i: Int) {

@@ -63,7 +63,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     val isPaused: Boolean
         get() = player.isPaused
 
-    var repeatOne: Boolean = false
+    var repeatTrack: Boolean = false
     var isLooping: Boolean = false
 
     var lastChannel: TextChannel? = null
@@ -100,7 +100,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
             }
             player.stopTrack()
         }
-        repeatOne = false
+        repeatTrack = false
         return skipped
     }
 
@@ -121,8 +121,8 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         player.stopTrack()
     }
 
-    fun toggleRepeatOne() {
-        repeatOne = !repeatOne
+    fun toggleRepeatTrack() {
+        repeatTrack = !repeatTrack
 	}
 
     fun seek(position: Long) {
@@ -137,7 +137,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         if (endReason.mayStartNext) {
-            if (repeatOne) {
+            if (repeatTrack) {
                 queue.addFirst(track.makeClone())
             } else if (isLooping) {
                 queue.add(track.makeClone())

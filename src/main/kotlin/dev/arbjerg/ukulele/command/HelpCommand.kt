@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.MessageBuilder
 import org.springframework.stereotype.Component
 
 @Component
-class HelpCommand : Command("help") {
+class HelpCommand : Command("h", "?", "help") {
     override suspend fun CommandContext.invoke() {
         if (argumentText.isNotBlank()) {
             replyHelp(beans.commandManager[argumentText.trim()] ?: command)
@@ -29,20 +29,5 @@ class HelpCommand : Command("help") {
         addDescription("Displays a list of commands and aliases.")
         addUsage("<command>")
         addDescription("Displays help about a specific command.")
-        addDescription("")
-        addDescription("")
-        addDescription("Here are the currently available commands for Ukulele:")
-        addDescription("loop / l / loopqueue / lq")
-        addDescription("nowplaying / np")
-        addDescription("pause")
-        addDescription("play / p")
-        addDescription("prefix")
-        addDescription("queue / q / list / li")
-        addDescription("repeat / r / repeatone / ro")
-        addDescription("resume")
-        addDescription("say")
-        addDescription("skip / s")
-        addDescription("stop")
-        addDescription("volume / v")
     }
 }
