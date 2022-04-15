@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.MessageBuilder
 import org.springframework.stereotype.Component
 
 @Component
-class HelpCommand : Command("h", "?", "help") {
+class HelpCommand : Command("help", "h", "?") {
     override suspend fun CommandContext.invoke() {
         if (argumentText.isNotBlank()) {
             replyHelp(beans.commandManager[argumentText.trim()] ?: command)
