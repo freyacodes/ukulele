@@ -22,7 +22,12 @@ class PlayCommand(
 ) : Command("play", "p") {
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
-        val identifier = argumentText
+
+        var identifier = argumentText
+        if (!checkValidUrl(identifier)) {
+            identifier = "ytsearch:$identifier"
+        }
+
         players.get(guild, guildProperties).lastChannel = channel
         apm.loadItem(identifier, Loader(this, player, identifier))
     }
@@ -49,6 +54,11 @@ class PlayCommand(
         }
 
         return ourVc != null
+    }
+
+    fun checkValidUrl(url: String): Boolean {
+        return url.startsWith("http://")
+                || url.startsWith("https://")
     }
 
     inner class Loader(
