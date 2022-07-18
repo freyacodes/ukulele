@@ -67,7 +67,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     var lastChannel: TextChannel? = null
 
-    /**
+    /**   queue.tracks = tracks
      * @return whether or not we started playing
      */
     fun add(vararg tracks: AudioTrack): Boolean {
@@ -121,6 +121,31 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     fun seek(position: Long) {
         player.playingTrack.position = position
+    }
+
+    fun move(originalPos : Int, targetPos : Int) {
+        val playingTrack = player.playingTrack != null
+
+        if(playingTrack){
+            if(targetPos == 0){
+                val prevPlayingTrack = player.playingTrack.makeClone()
+                val originalTrack = queue.removeAt(originalPos - 1)
+                queue.add(0, originalTrack.makeClone())
+                skip(0..0)
+                queue.add(0, prevPlayingTrack)
+            }else if (originalPos == 0){
+                val prevPlayingTrack = player.playingTrack.makeClone()
+                skip(0..0)
+                queue.add(targetPos - 1, prevPlayingTrack)
+            }else{
+                val originalTrack = queue.removeAt(originalPos - 1)
+                queue.add(targetPos - 1, originalTrack.makeClone())
+            }
+        }else{
+            val originalTrack = queue.removeAt(originalPos)
+            queue.add(targetPos, originalTrack.makeClone())
+        }
+
     }
 
     override fun onTrackStart(player: AudioPlayer, track: AudioTrack) {
