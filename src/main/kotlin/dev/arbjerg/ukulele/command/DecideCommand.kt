@@ -15,7 +15,8 @@ class DecideCommand : Command("decide"){
             "The ancient gods of the universe have made me feel unworthy, oh wait you are asking me, maybe %s",
             "Seems like %s would work",
             "Fuck off! I'm busy... ",
-            "Fuck off! I don't know, %s or something"
+            "Fuck off! I don't know, %s or something",
+            "It's obviously %s dumbass"
     )
     override suspend fun CommandContext.invoke() {
         val options = argumentText.split(",")
@@ -28,7 +29,7 @@ class DecideCommand : Command("decide"){
         val selectedOption = options[Random.nextInt(options.size - 1)].trim()
         val selectedWording = responseWording[Random.nextInt(responseWording.size - 1)]
 
-        reply(selectedWording.format(selectedOption))
+        replyTTS(selectedWording.format(selectedOption))
     }
 
     override fun HelpContext.provideHelp() {

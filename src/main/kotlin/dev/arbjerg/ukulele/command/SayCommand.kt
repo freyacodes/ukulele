@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 class SayCommand : Command("say") {
     override suspend fun CommandContext.invoke() {
-        reply(argumentText)
+        replyTTS(argumentText)
     }
 
     override fun HelpContext.provideHelp() {

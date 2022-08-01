@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.MessageBuilder
 import org.springframework.stereotype.Component
 
 class CommandContext(
@@ -42,6 +43,11 @@ class CommandContext(
 
     fun reply(msg: String) {
         channel.sendMessage(msg).queue()
+    }
+
+    fun replyTTS(msg: String){
+        val messageBuilder = MessageBuilder().append(msg).setTTS(true)
+        replyMsg(messageBuilder.build())
     }
 
     fun replyMsg(msg: Message) {
