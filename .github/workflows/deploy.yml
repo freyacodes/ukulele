@@ -22,6 +22,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Download a single artifact
         uses: actions/download-artifact@v3
@@ -42,7 +43,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "ukulele.jar"
-          target: "/home/ajahueym/Documents/Gits/ukulele/"
+          target: "/home/ajahueym/Documents/Gits/ukulele/build/libs"
 
       - name: Restarting ukulele on server
         uses: appleboy/ssh-action@master
