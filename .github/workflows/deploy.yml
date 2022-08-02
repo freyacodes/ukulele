@@ -18,7 +18,7 @@ jobs:
         with:
           name: built-ukelele-jar
           path: ukulele.jar
-          
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: sudo sytemctl stop ukelele
+          script: sudo systemctl stop ukelele
 
       - name: Copy jar file
         uses: appleboy/scp-action@master
@@ -50,4 +50,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: sudo sytemctl start ukelele
+          script: sudo systemctl start ukelele
