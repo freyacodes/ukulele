@@ -17,7 +17,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: built-ukulele-jar
-          path: ukulele/ukulele.jar
+          path: ukulele.jar
 
   deploy:
     needs: build
