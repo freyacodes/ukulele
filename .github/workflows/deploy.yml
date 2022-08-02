@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: built-ukelele-jar
+          name: built-ukulele-jar
           path: ukulele.jar
 
   deploy:
@@ -26,14 +26,14 @@ jobs:
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
-          name: built-ukelele-jar
-      - name: Stopping ukelele on server
+          name: built-ukulele-jar
+      - name: Stopping ukulele on server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: sudo systemctl stop ukelele
+          script: sudo systemctl stop ukulele
 
       - name: Copy jar file
         uses: appleboy/scp-action@master
@@ -41,13 +41,13 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          source: "ukelele.jar"
-          target: "/home/ajahueym/Gits/ukelele/"
+          source: "ukulele.jar"
+          target: "/home/ajahueym/Gits/ukulele/"
 
-      - name: Restarting ukelele on server
+      - name: Restarting ukulele on server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: sudo systemctl start ukelele
+          script: sudo systemctl start ukulele
