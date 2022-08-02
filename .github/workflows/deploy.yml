@@ -1,54 +1,36 @@
-name: Deploy to VM
-on: [push]
+name: Deploy to Chrisalaxelrto
+on: [deployment]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3            
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: 11
-          distribution: 'adopt'
-      - name: Build with Gradle
-        run: ./gradlew build
+  deployment:
+      runs-on: ubuntu-latest
+      environment: Chrisalaxelrto
+      steps:
+        - name: Download latest release
+          uses: dsaltares/fetch-gh-release-asset@master
+          with:
+            file: 'ukulele.jar'
+        - name: Stopping ukulele on server
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.KEY }}
+            script: sudo systemctl stop ukulele
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: built-ukulele-jar
-          path: ukulele.jar
+        - name: Copy jar file
+          uses: appleboy/scp-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.KEY }}
+            source: "ukulele.jar"
+            target: ${{ secrets.DIRECTORY }}
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: built-ukulele-jar
-      - name: Stopping ukulele on server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          script: sudo systemctl stop ukulele
-
-      - name: Copy jar file
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          source: "ukulele.jar"
-          target: "/home/ajahueym/Documents/Gits/ukulele/build/libs"
-
-      - name: Restarting ukulele on server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          script: sudo systemctl start ukulele
+        - name: Restarting ukulele on server
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.KEY }}
+            script: sudo systemctl start ukulele
