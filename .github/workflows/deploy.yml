@@ -5,18 +5,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-            ref: 'master'
-            path: ukulele
-            
+      - uses: actions/checkout@v3            
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: 11
           distribution: 'adopt'
       - name: Build with Gradle
-        run: cd ukulele && ./gradlew build
+        run: ./gradlew build
 
       - uses: actions/upload-artifact@v3
         with:
@@ -46,7 +42,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "ukulele.jar"
-          target: "/home/ajahueym/Gits/ukulele/"
+          target: "/home/ajahueym/Documents/Gits/ukulele/"
 
       - name: Restarting ukulele on server
         uses: appleboy/ssh-action@master
