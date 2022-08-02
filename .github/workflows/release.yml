@@ -1,0 +1,31 @@
+name: Upload artifact to release
+on:
+  release:
+    types: [created]
+
+jobs:
+  deployment:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get release
+          id: get_release
+          uses: bruceadams/get-release@v1.2.3
+          env:
+            GITHUB_TOKEN: ${{ github.token }}
+        - name: "Download artifact"
+          run: |
+            ARTIFACT_NAME=`gh run --repo ${GITHUB_REPOSITORY} list --workflow "Build and upload artifact" --json headSha --jq .[0].headSha`-ukulele
+            RUN_ID=`gh run --repo ${GITHUB_REPOSITORY} list --workflow "Build and upload artifact" --json databaseId --jq .[0].databaseId`
+            gh run --repo ${GITHUB_REPOSITORY} download ${RUN_ID} -n ${ARTIFACT_NAME}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Upload release binary
+          uses: actions/upload-release-asset@v1.0.2
+          env:
+            GITHUB_TOKEN: ${{ github.token }}
+          with:
+            upload_url: ${{ steps.get_release.outputs.upload_url }}
+            asset_path: ukulele.jar
+            asset_name: ukulele.jar
+            asset_content_type: application/octet-stream
