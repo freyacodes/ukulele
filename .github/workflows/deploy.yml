@@ -1,11 +1,10 @@
-name: ["Deploy to vm"]
+name: Deploy to vm
 # Only trigger, when the build workflow succeeded
 on:
   workflow_run:
-    workflows: ["Build"]
+    workflows: [Build]
     types:
-      - completedjobs:
-
+      - completed
 jobs:
   deploy:
       runs-on: ubuntu-latest
