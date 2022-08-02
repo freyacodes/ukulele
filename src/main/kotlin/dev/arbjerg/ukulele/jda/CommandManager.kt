@@ -2,12 +2,15 @@ package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildPropertiesService
+import dev.arbjerg.ukulele.data.Replies
+import dev.arbjerg.ukulele.jda.CommandContext
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.MessageBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -17,6 +20,7 @@ class CommandManager(
         private val contextBeans: CommandContext.Beans,
         private val guildProperties: GuildPropertiesService,
         private val botProps: BotProps,
+        private val replies: Replies,
         commands: Collection<Command>
 ) {
 
@@ -63,6 +67,13 @@ class CommandManager(
                         .takeWhile { !it.isWhitespace() }
                 trigger = prefix + name
             } else {
+                for(reply in replies.list){
+                    if(message.contentRaw.toLowerCase().contains(reply.first.toLowerCase())){
+                        log.info("Replying ${reply.second} to ${message.contentRaw}")
+                        var msg = MessageBuilder().append(reply.second).setTTS(true).build()
+                        channel.sendMessage(msg).queue()
+                    }
+                }
                 return@launch
             }
 
