@@ -11,7 +11,7 @@ class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
     override suspend fun CommandContext.invoke() {
         if (argumentText.isBlank()) return reply("The volume is set to ${player.volume}%.")
 
-        val num = argumentText.removeSuffix("%")
+        var num = argumentText.removeSuffix("%")
                 .toIntOrNull()
                 ?: return replyHelp()
 
