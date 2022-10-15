@@ -27,6 +27,7 @@ class JdaConfig {
 
         val intents = listOf(
                 GUILD_VOICE_STATES,
+                GUILD_PRESENCES,
                 GUILD_MESSAGES,
                 GUILD_BANS,
                 DIRECT_MESSAGES
