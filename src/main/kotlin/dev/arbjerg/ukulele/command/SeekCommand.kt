@@ -31,7 +31,7 @@ class SeekCommand : Command ("seek") {
     private val timestampPattern: Pattern = Pattern.compile("^(\\d?\\d)(?::([0-5]?\\d))?(?::([0-5]?\\d))?$")
 
     fun parseTimeString(str: String): Long? {
-        var millis: Long = 0
+        var millis: Long
         var seconds: Long = 0
         var minutes: Long = 0
         var hours: Long = 0
