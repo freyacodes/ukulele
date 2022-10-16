@@ -94,7 +94,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
             newRange = newRange.first - 1 .. newRange.last - 1
         }
         if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
-        if (skipped.first() == player.playingTrack) {
+        if (!skipped.isEmpty() && skipped.first() == player.playingTrack) {
             if (isLooping) {
                 queue.add(player.playingTrack.makeClone())
             }
@@ -131,7 +131,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     override fun onTrackStart(player: AudioPlayer, track: AudioTrack) {
         if (beans.botProps.announceTracks) {
-            lastChannel?.sendMessage(beans.nowPlayingCommand.buildEmbed(track))?.queue()
+            lastChannel?.sendMessageEmbeds(beans.nowPlayingCommand.buildEmbed(track))?.queue()
         }
     }
 

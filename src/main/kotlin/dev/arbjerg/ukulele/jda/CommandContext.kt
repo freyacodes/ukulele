@@ -49,7 +49,7 @@ class CommandContext(
     }
 
     fun replyEmbed(embed: MessageEmbed) {
-        channel.sendMessage(embed).queue()
+        channel.sendMessageEmbeds(embed).queue()
     }
 
     fun replyHelp(forCommand: Command = command) {
