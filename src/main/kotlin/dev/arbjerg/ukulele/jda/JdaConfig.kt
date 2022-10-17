@@ -34,7 +34,7 @@ class JdaConfig {
         )
 
         val builder = DefaultShardManagerBuilder.create(botProps.token, intents)
-                .disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
+                .disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE)
                 .setBulkDeleteSplittingEnabled(false)
                 .setEnableShutdownHook(false)
                 .setAutoReconnect(true)
