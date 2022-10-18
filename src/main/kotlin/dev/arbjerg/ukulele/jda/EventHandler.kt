@@ -1,5 +1,6 @@
 package dev.arbjerg.ukulele.jda
 
+import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.StatusChangeEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter

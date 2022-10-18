@@ -20,7 +20,7 @@ import java.nio.Buffer
 import java.nio.ByteBuffer
 
 
-class Player(private val beans: Beans, guildProperties: GuildProperties) : AudioEventAdapter(), AudioSendHandler {
+class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAdapter(), AudioSendHandler {
     @Component
     class Beans(
             val apm: AudioPlayerManager,
@@ -86,15 +86,15 @@ class Player(private val beans: Beans, guildProperties: GuildProperties) : Audio
         val skipped = mutableListOf<AudioTrack>()
         var newRange = rangeFirst .. rangeLast 
         // Skip the first track if it is stored here
-        newRange = if (newRange.contains(0) && player.playingTrack != null) {
+        if (newRange.contains(0) && player.playingTrack != null) {
             skipped.add(player.playingTrack)
             // Reduce range if found
-            0 until rangeLast
+            newRange = 0 .. rangeLast - 1
         } else {
-            newRange.first - 1 until newRange.last
+            newRange = newRange.first - 1 .. newRange.last - 1
         }
         if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
-        if (skipped.isNotEmpty() && skipped.first() == player.playingTrack) {
+        if (!skipped.isEmpty() && skipped.first() == player.playingTrack) {
             if (isLooping) {
                 queue.add(player.playingTrack.makeClone())
             }

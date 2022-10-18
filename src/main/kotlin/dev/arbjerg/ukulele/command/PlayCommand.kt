@@ -53,7 +53,7 @@ class PlayCommand(
             return true
         }
 
-        return true
+        return ourVc != null
     }
 
     fun checkValidUrl(url: String): Boolean {
@@ -88,7 +88,7 @@ class PlayCommand(
             }
 
             if (identifier.startsWith("ytsearch") || identifier.startsWith("ytmsearch") || identifier.startsWith("scsearch:")) {
-                this.trackLoaded(accepted.component1())
+                this.trackLoaded(accepted.component1());
                 return
             }
 

@@ -31,7 +31,7 @@ class SeekCommand : Command ("seek") {
     private val timestampPattern: Pattern = Pattern.compile("^(\\d?\\d)(?::([0-5]?\\d))?(?::([0-5]?\\d))?$")
 
     fun parseTimeString(str: String): Long? {
-        val millis: Long
+        var millis: Long
         var seconds: Long = 0
         var minutes: Long = 0
         var hours: Long = 0
@@ -70,14 +70,14 @@ class SeekCommand : Command ("seek") {
         val min = (t % 3600L / 60L).toInt()
         val hrs = (t / 3600L).toInt()
         val timestamp: String = if (hrs != 0) {
-            forceTwoDigits(hrs) + ":" + forceTwoDigits(min) + ":" + forceTwoDigits(sec)
+            forceTwoDigits(hrs).toString() + ":" + forceTwoDigits(min) + ":" + forceTwoDigits(sec)
         } else {
-            forceTwoDigits(min) + ":" + forceTwoDigits(sec)
+            forceTwoDigits(min).toString() + ":" + forceTwoDigits(sec)
         }
         return timestamp
     }
 
-    private fun forceTwoDigits(i: Int): String {
+    private fun forceTwoDigits(i: Int): String? {
         return if (i < 10) "0$i" else i.toString()
     }
 
