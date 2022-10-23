@@ -19,8 +19,7 @@ import org.springframework.stereotype.Component
 import java.nio.Buffer
 import java.nio.ByteBuffer
 
-
-class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAdapter(), AudioSendHandler {
+class Player(private val beans: Beans, guildProperties: GuildProperties) : AudioEventAdapter(), AudioSendHandler {
     @Component
     class Beans(
             val apm: AudioPlayerManager,
@@ -69,7 +68,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
     var lastChannel: TextChannel? = null
 
     /**
-     * @return whether or not we started playing
+     * @return true if playing started, false if not.
      */
     fun add(vararg tracks: AudioTrack): Boolean {
         queue.add(*tracks)
@@ -86,15 +85,15 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         val skipped = mutableListOf<AudioTrack>()
         var newRange = rangeFirst .. rangeLast 
         // Skip the first track if it is stored here
-        if (newRange.contains(0) && player.playingTrack != null) {
+        newRange = if (newRange.contains(0) && player.playingTrack != null) {
             skipped.add(player.playingTrack)
             // Reduce range if found
-            newRange = 0 .. rangeLast - 1
+            0 until rangeLast
         } else {
-            newRange = newRange.first - 1 .. newRange.last - 1
+            newRange.first - 1 until newRange.last
         }
         if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
-        if (!skipped.isEmpty() && skipped.first() == player.playingTrack) {
+        if (skipped.isNotEmpty() && skipped.first() == player.playingTrack) {
             if (isLooping) {
                 queue.add(player.playingTrack.makeClone())
             }

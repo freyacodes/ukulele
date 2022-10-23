@@ -9,7 +9,7 @@ class HelpContext(private val commandContext: CommandContext, private val comman
 
     fun addUsage(usage: String) = addUsages(usage)
 
-    fun addUsages(vararg usages: String) {
+    private fun addUsages(vararg usages: String) {
         if (usages.isEmpty()) throw IllegalArgumentException("Expected at least one usage!")
         lines.add(usages.joinToString(" OR ") {
             commandContext.prefix + command.name + " " + it.trim()

@@ -5,11 +5,7 @@ import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.features.HelpContext
-import net.dv8tion.jda.api.entities.Guild
-import net.dv8tion.jda.api.entities.Member
-import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.MessageEmbed
-import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.*
 import org.springframework.stereotype.Component
 
 class CommandContext(
@@ -18,7 +14,7 @@ class CommandContext(
         val guild: Guild,
         val channel: TextChannel,
         val invoker: Member,
-        val message: Message,
+        private val message: Message,
         val command: Command,
         val prefix: String,
         /** Prefix + command name */

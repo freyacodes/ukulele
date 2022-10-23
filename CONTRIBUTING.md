@@ -23,7 +23,7 @@ If you're new to Kotlin, I recommend the following reading:
 * [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html) (Interactive)
 
 ## Working with Spring Boot
-Ukulele uses Spring Boot as a framework. The basic concept is that we can declare components (beans, services, etc) to
+Ukulele uses Spring Boot as a framework. The basic concept is that we can declare components (beans, services, etc.) to
 be depended on by other beans. This is called inversion of control. It allows us to reduce coupling between components.
 
 All `Command`s are beans. Another bean is the `CommandManager`, which depends on all Command beans. Beans are automatically

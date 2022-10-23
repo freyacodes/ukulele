@@ -16,7 +16,7 @@ class TrackQueue {
 
     fun removeRange(range: IntRange): List<AudioTrack> {
         val list = queue.slice(range)
-        queue.removeAll(list)
+        queue.removeAll(list.toSet())
         return list
     }
 

@@ -19,14 +19,14 @@ repositories {
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:4.3.0_279")
+    implementation("net.dv8tion:JDA:4.4.0_350")
     implementation("com.github.walkyst.lavaplayer-fork:lavaplayer:1.3.98.3")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
-    implementation("com.github.ben-manes.caffeine:caffeine:2.8.8")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
 
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")

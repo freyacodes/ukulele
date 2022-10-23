@@ -48,7 +48,7 @@ class CommandManager(
             val trigger: String
 
             // match result: a mention of us at the beginning
-            val mention = Regex("^(<@!?${guild.getSelfMember().getId()}>\\s*)").find(message.contentRaw)?.value
+            val mention = Regex("^(<@!?${guild.selfMember.id}>\\s*)").find(message.contentRaw)?.value
             if (mention != null) {
                 val commandText = message.contentRaw.drop(mention.length)
                 if (commandText.isEmpty()) {
