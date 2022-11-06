@@ -94,11 +94,16 @@ class Player(private val beans: Beans, guildProperties: GuildProperties) : Audio
         }
         if (newRange.last >= 0) skipped.addAll(queue.removeRange(newRange))
         if (skipped.isNotEmpty() && skipped.first() == player.playingTrack) {
-            if (isLooping) {
-                queue.add(player.playingTrack.makeClone())
-            }
+            // Stopping the currently playing track will handle its removal from the queue.
             player.stopTrack()
         }
+        if (isLooping) {
+            // With looping enabled, add a clone of each skipped AudioTrack to the end of the queue.
+            skipped.forEach {
+                queue.add(it.makeClone())
+            }
+        }
+
         repeatTrack = false
         return skipped
     }
