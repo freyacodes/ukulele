@@ -25,8 +25,10 @@ class SkipCommand : Command("skip", "s") {
     }
 
     private fun CommandContext.skipIndex(i: Int) {
-        val ind = (i-1).coerceAtLeast(0)
-        printSkipped(player.skip(ind..ind))
+        val ind = i.coerceAtLeast(1).coerceAtMost(player.tracks.size)
+        if (ind >= 2) {
+            printSkipped(player.skip(0..ind-2))
+        }
     }
 
     private fun CommandContext.skipRange() {
@@ -45,7 +47,7 @@ class SkipCommand : Command("skip", "s") {
 
     override fun HelpContext.provideHelp() {
         addUsage("[count]")
-        addDescription("Skips a number of tracks.")
+        addDescription("Skips to queue position.")
         addDescription("Defaults to the first track if no number is given.")
         addUsage("<from> <to>")
         addDescription("Skips a range of tracks.")
