@@ -25,10 +25,8 @@ class SkipCommand : Command("skip", "s") {
     }
 
     private fun CommandContext.skipIndex(i: Int) {
-        val ind = i.coerceAtLeast(1).coerceAtMost(player.tracks.size)
-        if (ind >= 2) {
-            printSkipped(player.skip(0..ind-2))
-        }
+        val ind = (i-1).coerceAtLeast(0)
+        printSkipped(player.skip(ind..ind))
     }
 
     private fun CommandContext.skipRange() {
