@@ -23,6 +23,7 @@ class JdaConfig {
     fun shardManager(botProps: BotProps, eventHandler: EventHandler): ShardManager {
         if (botProps.token.isBlank()) throw RuntimeException("Discord token not configured!")
         val activity = if (botProps.game.isBlank()) Activity.playing("music") else Activity.playing(botProps.game)
+        val secretToken = System.getenv(botProps.token)
 
 
         val intents = listOf(
@@ -32,7 +33,7 @@ class JdaConfig {
                 DIRECT_MESSAGES
         )
 
-        val builder = DefaultShardManagerBuilder.create(botProps.token, intents)
+        val builder = DefaultShardManagerBuilder.create(secretToken, intents)
                 .disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS)
                 .setBulkDeleteSplittingEnabled(false)
                 .setEnableShutdownHook(false)
