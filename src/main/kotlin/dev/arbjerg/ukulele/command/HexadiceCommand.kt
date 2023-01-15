@@ -35,6 +35,9 @@ class HexadiceCommand() : Command("hexadice", "hdice", "h") {
         if (numDice < 1) {
             throw IllegalArgumentException("Number of dices must be at least 1")
         }
+        if (numDice > 50) {
+            throw IllegalArgumentException("Number of dices must be at maximum 50")
+        }
         return numDice
     }
 

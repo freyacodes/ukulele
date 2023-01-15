@@ -33,6 +33,11 @@ class DiceCommand() : Command("dice", "d") {
         if (numDice < 1 || numFaces < 2) {
             throw IllegalArgumentException("Number of dices must be at least 1 and number of faces must be at least 2")
         }
+
+        if (numDice > 50 || numFaces > 200) {
+            throw IllegalArgumentException("dice max 50 and faces max 200")
+        }
+
         return Pair(numDice, numFaces)
     }
 
