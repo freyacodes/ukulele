@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import org.springframework.stereotype.Component
 import java.awt.Color
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
 
 @Component
 class NowPlayingCommand : Command ("nowplaying", "np") {
@@ -20,6 +21,10 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
             return reply("Not playing anything.")
 
         replyEmbed(buildEmbed(player.tracks[0]))
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     fun buildEmbed(track: AudioTrack): MessageEmbed {

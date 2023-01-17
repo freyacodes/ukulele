@@ -13,6 +13,8 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import net.dv8tion.jda.api.Permission
 import org.springframework.stereotype.Component
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class PlayCommand(
@@ -30,6 +32,10 @@ class PlayCommand(
 
         players.get(guild, guildProperties).lastChannel = channel
         apm.loadItem(identifier, Loader(this, player, identifier))
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     fun CommandContext.ensureVoiceChannel(): Boolean {

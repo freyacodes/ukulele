@@ -12,11 +12,16 @@ abstract class Command(val name: String, vararg val aliases: String) {
         ctx.apply { invoke() }
     }
 
+    suspend fun invokeP(ctx: PrivateMessageContext) {
+        ctx.apply { invoke() }
+    }
+
     fun provideHelp0(ctx: HelpContext) {
         ctx.apply { provideHelp() }
     }
 
     abstract suspend fun CommandContext.invoke()
+    abstract suspend fun PrivateMessageContext.invoke()
     abstract fun HelpContext.provideHelp()
 
 }

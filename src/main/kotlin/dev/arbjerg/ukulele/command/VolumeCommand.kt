@@ -5,6 +5,8 @@ import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
@@ -18,6 +20,10 @@ class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
         val formerVolume = player.volume
         player.volume = num
         reply("Changed volume from ${formerVolume}% to ${player.volume}%.")
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     override fun HelpContext.provideHelp() {

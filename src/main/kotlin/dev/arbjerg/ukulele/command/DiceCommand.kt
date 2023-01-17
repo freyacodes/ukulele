@@ -6,6 +6,7 @@ import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
 import dev.arbjerg.ukulele.utils.TextUtils
 import org.springframework.stereotype.Component
 
@@ -15,6 +16,10 @@ import java.util.Random
 class DiceCommand() : Command("dice", "d") {
     private val random = Random()
     override suspend fun CommandContext.invoke() {
+        val (numDice, numFaces) = parseArgument(argumentText)
+        reply(rollDices(numDice, numFaces).joinToString(separator = ", "))
+    }
+    override suspend fun PrivateMessageContext.invoke() {
         val (numDice, numFaces) = parseArgument(argumentText)
         reply(rollDices(numDice, numFaces).joinToString(separator = ", "))
     }

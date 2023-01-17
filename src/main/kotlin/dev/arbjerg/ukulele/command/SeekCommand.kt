@@ -5,6 +5,8 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 import java.util.regex.Pattern
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class SeekCommand : Command ("seek") {
@@ -26,6 +28,10 @@ class SeekCommand : Command ("seek") {
             player.seek(newPosition)
             reply("Seeking `${track.info.title}` to ${formatTime(newPosition)}")
         }
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     private val timestampPattern: Pattern = Pattern.compile("^(\\d?\\d)(?::([0-5]?\\d))?(?::([0-5]?\\d))?$")

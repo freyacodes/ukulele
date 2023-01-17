@@ -6,6 +6,8 @@ import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class SkipCommand : Command("skip", "s") {
@@ -15,6 +17,10 @@ class SkipCommand : Command("skip", "s") {
             argumentText.toIntOrNull() != null -> skipIndex(argumentText.toInt())
             argumentText.split("\\s+".toRegex()).size == 2 -> skipRange()
         }
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     private fun CommandContext.skipNext() {

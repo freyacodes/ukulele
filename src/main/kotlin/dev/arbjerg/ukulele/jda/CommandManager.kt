@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -71,6 +72,30 @@ class CommandManager(
 
             log.info("Invocation: ${message.contentRaw}")
             command.invoke0(ctx)
+        }
+    }
+
+
+    fun onPrivateMessage(author: User, message: Message) {
+        GlobalScope.launch {
+            val prefix = botProps.prefix
+            val name: String
+            val trigger: String
+
+            if (message.contentRaw.startsWith(prefix)) {
+                name = message.contentRaw.drop(prefix.length)
+                        .takeWhile { !it.isWhitespace() }
+                trigger = prefix + name
+            } else {
+                return@launch
+            }
+
+            val command = registry[name] ?: return@launch
+
+            val ctx = PrivateMessageContext(contextBeans, author, message, command, prefix, trigger)
+
+            log.info("Invocation: ${message.contentRaw}")
+            command.invokeP(ctx)
         }
     }
 

@@ -3,6 +3,7 @@ package dev.arbjerg.ukulele.jda
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.StatusChangeEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
+import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,6 +17,11 @@ class EventHandler(private val commandManager: CommandManager) : ListenerAdapter
     override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
         if (event.isWebhookMessage || event.author.isBot) return
         commandManager.onMessage(event.guild, event.channel, event.member!!, event.message)
+    }
+
+    override fun onPrivateMessageReceived(event: PrivateMessageReceivedEvent) {
+        if (event.author.isBot) return
+        commandManager.onPrivateMessage(event.author, event.message)
     }
 
     override fun onStatusChange(event: StatusChangeEvent) {

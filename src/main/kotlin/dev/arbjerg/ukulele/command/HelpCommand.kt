@@ -5,6 +5,8 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import net.dv8tion.jda.api.MessageBuilder
 import org.springframework.stereotype.Component
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class HelpCommand : Command("help") {
@@ -22,6 +24,10 @@ class HelpCommand : Command("help") {
                 .append("\nUse \"${trigger} <command>\" to see more details.")
             replyMsg(msg.build())
         }
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     override fun HelpContext.provideHelp() {

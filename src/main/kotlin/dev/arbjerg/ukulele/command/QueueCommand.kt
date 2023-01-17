@@ -8,6 +8,8 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import dev.arbjerg.ukulele.utils.TextUtils
 import org.springframework.stereotype.Component
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class QueueCommand(
@@ -18,6 +20,10 @@ class QueueCommand(
 
     override suspend fun CommandContext.invoke() {
         reply(printQueue(player, argumentText.toIntOrNull() ?: 1))
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     private fun printQueue(player: Player, pageIndex: Int): String {

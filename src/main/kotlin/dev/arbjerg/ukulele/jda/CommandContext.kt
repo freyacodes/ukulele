@@ -62,4 +62,5 @@ class CommandContext(
         command.log.error("Handled exception occurred", t)
         reply("An exception occurred!\n`${t.message}`")
     }
+
 }

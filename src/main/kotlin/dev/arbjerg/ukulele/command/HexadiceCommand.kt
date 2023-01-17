@@ -6,6 +6,7 @@ import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
 import dev.arbjerg.ukulele.utils.TextUtils
 import org.springframework.stereotype.Component
 
@@ -15,6 +16,21 @@ import java.util.Random
 class HexadiceCommand() : Command("hexadice", "hdice", "h") {
     private val random = Random()
     override suspend fun CommandContext.invoke() {
+        var numDice = parseArgument(argumentText)
+        val numFaces = 6
+        val rolls = arrayListOf<List<Int>>()
+        var success = 0
+        while (numDice > 0) {
+            val roll = rollDices(numDice, numFaces)
+            rolls.add(roll)
+            val countOf6 = roll.count{it == 6}
+            numDice = countOf6
+            success += roll.count{ roll -> roll > 2 }
+        }
+        reply(rolls.joinToString(", ") + ": " + success + " success")
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
         var numDice = parseArgument(argumentText)
         val numFaces = 6
         val rolls = arrayListOf<List<Int>>()

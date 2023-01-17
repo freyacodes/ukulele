@@ -6,6 +6,8 @@ import dev.arbjerg.ukulele.features.HelpContext
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
+import dev.arbjerg.ukulele.jda.PrivateMessageContext
+
 
 @Component
 class PrefixCommand(val guildPropertiesService: GuildPropertiesService, val botProps: BotProps) : Command("prefix") {
@@ -21,6 +23,10 @@ class PrefixCommand(val guildPropertiesService: GuildPropertiesService, val botP
         else -> {
             replyHelp()
         }
+    }
+
+    override suspend fun PrivateMessageContext.invoke() {
+        reply("this command in PM isn't supported yet")
     }
 
     override fun HelpContext.provideHelp() {
