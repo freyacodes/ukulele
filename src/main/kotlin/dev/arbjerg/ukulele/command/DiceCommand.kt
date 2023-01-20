@@ -47,11 +47,11 @@ class DiceCommand() : Command("dice", "d") {
     }
 
     private fun rollDices(numDice: Int, numFaces: Int): List<Int> {
-        return (1..numDice).map { random.nextInt(numFaces) + 1 }
+        return (1..numDice).map { random.nextInt(numFaces) + 1 }.sortedDescending()
     }
 
     override fun HelpContext.provideHelp() {
-        addUsage("[Number of dices]d[Noumber of faces]")
+        addUsage("[Number of dices]d[Number of faces]")
         addDescription("roll the dice")
     }
 }
