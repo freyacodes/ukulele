@@ -16,33 +16,33 @@ import java.util.Random
 class HexadiceCommand() : Command("hexadice", "hdice", "h") {
     private val random = Random()
     override suspend fun CommandContext.invoke() {
-        var numDice = parseArgument(argumentText)
+        val numDice = parseArgument(argumentText)
+        var dicesToRoll = numDice
         val numFaces = 6
         val rolls = arrayListOf<List<Int>>()
         var success = 0
-        while (numDice > 0) {
-            val roll = rollDices(numDice, numFaces)
+        while (dicesToRoll > 0) {
+            val roll = rollDices(dicesToRoll, numFaces)
             rolls.add(roll)
-            val countOf6 = roll.count{it == 6}
-            numDice = countOf6
+            dicesToRoll = roll.count{it == 6}
             success += roll.count{ roll -> roll > 2 }
         }
-        reply(rolls.joinToString(", ") + ": " + success + " success")
+        reply("${message.author.name} Request [h${numDice}]: ${rolls.joinToString(", ")} : $success success")
     }
 
     override suspend fun PrivateMessageContext.invoke() {
         var numDice = parseArgument(argumentText)
+        var dicesToRoll = numDice
         val numFaces = 6
         val rolls = arrayListOf<List<Int>>()
         var success = 0
-        while (numDice > 0) {
-            val roll = rollDices(numDice, numFaces)
+        while (dicesToRoll > 0) {
+            val roll = rollDices(dicesToRoll, numFaces)
             rolls.add(roll)
-            val countOf6 = roll.count{it == 6}
-            numDice = countOf6
+            dicesToRoll = roll.count{it == 6}
             success += roll.count{ roll -> roll > 2 }
         }
-        reply(rolls.joinToString(", ") + ": " + success + " success")
+        reply("${message.author.name} Request [h${numDice}]: ${rolls.joinToString(", ")} : $success success")
     }
 
     private fun parseArgument(argumentText: String): Int {

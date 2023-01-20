@@ -17,12 +17,13 @@ class DiceCommand() : Command("dice", "d") {
     private val random = Random()
     override suspend fun CommandContext.invoke() {
         val (numDice, numFaces) = parseArgument(argumentText)
-        reply(rollDices(numDice, numFaces).joinToString(separator = ", "))
+        reply("${message.author.name} Request [${numDice}d$numFaces]: ${rollDices(numDice, numFaces).joinToString(separator = ", ")}")
     }
     override suspend fun PrivateMessageContext.invoke() {
         val (numDice, numFaces) = parseArgument(argumentText)
-        reply(rollDices(numDice, numFaces).joinToString(separator = ", "))
+        reply("${message.author.name} Request [${numDice}d$numFaces]: ${rollDices(numDice, numFaces).joinToString(separator = ", ")}")
     }
+
 
     private fun parseArgument(argumentText: String): Pair<Int, Int> {
         val input = argumentText.split("d")
