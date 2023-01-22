@@ -13,6 +13,7 @@ version = "0.1"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
+    //mavenLocal()
     mavenCentral()
     maven { url = uri("https://m2.dv8tion.net/releases") }
     maven { url = uri("https://jitpack.io") }
@@ -20,14 +21,14 @@ repositories {
 
 dependencies {
     implementation("net.dv8tion:JDA:4.4.0_350")
-    implementation("com.github.walkyst:lavaplayer-fork:1.3.99.1")
+    implementation("com.github.walkyst:lavaplayer-fork:1.3.99.2")
     implementation("com.github.aikaterna:lavaplayer-natives:f067f4dae7")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.1.1")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.2")
 
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
