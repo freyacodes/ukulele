@@ -41,8 +41,8 @@ class SkipCommand : Command("skip", "s") {
     }
 
     override fun HelpContext.provideHelp() {
-        addUsage("[count]")
-        addDescription("Skips a number of tracks.")
+        addUsage("[index]")
+        addDescription("Skips a single track.")
         addDescription("Defaults to the first track if no number is given.")
         addUsage("<from> <to>")
         addDescription("Skips a range of tracks.")
