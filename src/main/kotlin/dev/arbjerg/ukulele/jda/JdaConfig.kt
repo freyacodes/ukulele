@@ -2,13 +2,13 @@ package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.config.BotProps
 import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.requests.GatewayIntent.*
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
 import net.dv8tion.jda.api.sharding.ShardManager
+import net.dv8tion.jda.api.utils.cache.CacheFlag
+import net.dv8tion.jda.api.utils.messages.MessageRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import net.dv8tion.jda.api.requests.GatewayIntent.*
-import net.dv8tion.jda.api.requests.restaction.MessageAction
-import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
-import net.dv8tion.jda.api.utils.cache.CacheFlag
 import javax.security.auth.login.LoginException
 import kotlin.concurrent.thread
 
@@ -16,7 +16,7 @@ import kotlin.concurrent.thread
 class JdaConfig {
 
     init {
-        MessageAction.setDefaultMentions(emptyList())
+        MessageRequest.setDefaultMentions(emptyList())
     }
 
     @Bean
@@ -26,15 +26,20 @@ class JdaConfig {
 
 
         val intents = listOf(
+                DIRECT_MESSAGES,
                 GUILD_VOICE_STATES,
                 GUILD_PRESENCES,
                 GUILD_MESSAGES,
-                GUILD_BANS,
-                DIRECT_MESSAGES
+                GUILD_MODERATION,
+                MESSAGE_CONTENT
         )
 
         val builder = DefaultShardManagerBuilder.create(botProps.token, intents)
-                .disableCache(CacheFlag.ACTIVITY, CacheFlag.EMOTE)
+                .disableCache(CacheFlag.ACTIVITY,
+                        CacheFlag.CLIENT_STATUS,
+                        CacheFlag.EMOJI,
+                        CacheFlag.STICKER,
+                        CacheFlag.SCHEDULED_EVENTS)
                 .setBulkDeleteSplittingEnabled(false)
                 .setEnableShutdownHook(false)
                 .setAutoReconnect(true)

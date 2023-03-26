@@ -15,19 +15,25 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
     //mavenLocal()
     mavenCentral()
-    maven { url = uri("https://m2.dv8tion.net/releases") }
     maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
-    implementation("net.dv8tion:JDA:4.4.0_352")
+    // https://mvnrepository.com/artifact/net.dv8tion/JDA
+    implementation ("net.dv8tion:JDA:5.0.0-beta.6")
     implementation("com.github.walkyst:lavaplayer-fork:1.4.0")
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    implementation("com.fasterxml.jackson.core:jackson-core:2.14.2")
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2")
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.14.2")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.1.4")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.5")
 
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")

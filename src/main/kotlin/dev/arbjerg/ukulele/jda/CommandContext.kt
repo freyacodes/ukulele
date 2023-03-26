@@ -5,7 +5,12 @@ import dev.arbjerg.ukulele.audio.PlayerRegistry
 import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.features.HelpContext
-import net.dv8tion.jda.api.entities.*
+import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.Member
+import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
+import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import org.springframework.stereotype.Component
 
 class CommandContext(
@@ -40,12 +45,12 @@ class CommandContext(
         channel.sendMessage(msg).queue()
     }
 
-    fun replyMsg(msg: Message) {
+    fun replyMsg(msg: MessageCreateData) {
         channel.sendMessage(msg).queue()
     }
 
     fun replyEmbed(embed: MessageEmbed) {
-        channel.sendMessageEmbeds(embed).queue()
+        channel.sendMessage(MessageCreateData.fromEmbeds(embed)).queue()
     }
 
     fun replyHelp(forCommand: Command = command) {
