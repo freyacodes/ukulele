@@ -15,11 +15,10 @@ This is currently work-in-progress.
 ## Host it yourself
 
 ### Manual
-- Install Java 11
+- Install Java 13. Reason being, Java 11 appears to have some issues with Discord's TLS 1.3 and Java 14 has other undiagnosed HTTPS problems.
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 - Run `./ukulele` to build and run the application (Windows users use the .bat files via commandline)
-*Java 11 appears to have some issues with Discord's TLS 1.3. Java 14 has other undiagnosed HTTPS problems. Use Java 13.
 
 ### Using Docker
 #### Requirements
