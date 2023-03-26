@@ -62,8 +62,8 @@ class Player(private val beans: Beans, guildProperties: GuildProperties) : Audio
     val isPaused: Boolean
         get() = player.isPaused
 
-    var repeatTrack: Boolean = false
-    var isLooping: Boolean = false
+    var repeatTrack: Boolean = beans.botProps.repeatTrack
+    var queueLooping: Boolean = beans.botProps.queueLooping
 
     var lastChannel: TextChannel? = null
 
@@ -97,7 +97,7 @@ class Player(private val beans: Beans, guildProperties: GuildProperties) : Audio
             // Stopping the currently playing track will handle its removal from the queue.
             player.stopTrack()
         }
-        if (isLooping) {
+        if (queueLooping) {
             // With looping enabled, add a clone of each skipped AudioTrack to the end of the queue.
             skipped.forEach {
                 queue.add(it.makeClone())
@@ -143,7 +143,7 @@ class Player(private val beans: Beans, guildProperties: GuildProperties) : Audio
         if (endReason.mayStartNext) {
             if (repeatTrack) {
                 queue.addFirst(track.makeClone())
-            } else if (isLooping) {
+            } else if (queueLooping) {
                 queue.add(track.makeClone())
             }
         }
