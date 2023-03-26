@@ -17,10 +17,10 @@ class EventHandler(private val commandManager: CommandManager) : ListenerAdapter
         if (event.isWebhookMessage || event.author.isBot) return
         if (event.channelType != ChannelType.TEXT) return
 
-        commandManager.onMessage(event.guild, event.channel.asTextChannel(), event.member!!, event.message)    }
+        commandManager.onMessage(event.guild, event.channel.asTextChannel(), event.member!!, event.message)
+    }
 
     override fun onStatusChange(event: StatusChangeEvent) {
         log.info("{}: {} -> {}", event.entity.shardInfo, event.oldStatus, event.newStatus)
     }
-
 }
