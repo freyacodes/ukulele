@@ -1,7 +1,6 @@
 FROM openjdk:11
 RUN groupadd -r -g 999 ukulele && useradd -rd /opt/ukulele -g ukulele -u 999 -ms /bin/bash ukulele
 COPY --chown=ukulele:ukulele build/libs/ukulele.jar /opt/ukulele/ukulele.jar
-COPY --chown=ukulele:ukulele ukulele.yml /opt/ukulele/ukulele.yml
 USER ukulele
 WORKDIR /opt/ukulele/
 ENTRYPOINT ["java", "-jar", "/opt/ukulele/ukulele.jar"]
