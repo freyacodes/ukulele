@@ -2,12 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
+    java
     id("org.springframework.boot") version "2.6.14"
-    id("io.spring.dependency-management") version "1.0.15.RELEASE"
     kotlin("jvm") version "1.8.10"
     kotlin("plugin.spring") version "1.8.10"
 }
 
+apply(plugin = "io.spring.dependency-management")
 group = "dev.arbjerg"
 version = "0.1"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -41,7 +42,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
