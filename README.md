@@ -3,7 +3,7 @@
 
 Ukulele is a bot made by the creator and collaborators of FredBoat. The concept is to replicate FredBoat while keeping it simple. The original stack is engineered for serving millions of servers, and is thus too complex to selfhost.
 
-The bot is self-contained and only requires Java 11 to run.
+The bot is self-contained and only requires Java 17 to run.
 
 This is currently work-in-progress.
 
@@ -15,7 +15,7 @@ This is currently work-in-progress.
 ## Host it yourself
 
 ### Manual
-- Install Java 13. Reason being, Java 11 appears to have some issues with Discord's TLS 1.3 and Java 14 has other undiagnosed HTTPS problems.
+- Install Java 17. Adoptium has a 17 JDK and JRE downloads available.  Also, there is Zulu.
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 - Run `./ukulele` to build and run the application (Windows users use the .bat files via commandline)

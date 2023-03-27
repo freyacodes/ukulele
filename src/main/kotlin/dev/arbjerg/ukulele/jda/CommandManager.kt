@@ -2,6 +2,7 @@ package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildPropertiesService
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.entities.Guild
@@ -39,6 +40,7 @@ class CommandManager(
 
     fun getCommands() = registry.values.distinct()
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun onMessage(guild: Guild, channel: TextChannel, member: Member, message: Message) {
         GlobalScope.launch {
             val guildProperties = guildProperties.getAwait(guild.idLong)
