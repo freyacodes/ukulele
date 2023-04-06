@@ -25,14 +25,13 @@ dependencies {
     // Eventually, a full upgrade to JDA 5.x will be necessary.
     implementation("com.github.DV8FromTheWorld:JDA:legacy~v4-SNAPSHOT")
     //implementation("com.sedmelluq:lavaplayer:1.3.78")
-    implementation("com.github.walkyst:lavaplayer-fork:1.3.96")
+    implementation("com.github.walkyst.lavaplayer-fork:lavaplayer:1.4.0")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
-    implementation("com.github.ben-manes.caffeine:caffeine:2.8.6")
-
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.5")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
