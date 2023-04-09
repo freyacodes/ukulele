@@ -37,7 +37,7 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     implementation("io.r2dbc:r2dbc-h2")
     implementation("org.flywaydb:flyway-core")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.1.5")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.6")
 
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
