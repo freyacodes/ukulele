@@ -1,6 +1,7 @@
 package dev.arbjerg.ukulele.command
 
 import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioTrack
+import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioTrack
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import dev.arbjerg.ukulele.features.HelpContext
@@ -26,6 +27,7 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
         return when(track){
             is YoutubeAudioTrack -> GetEmbed(track).youtube()
             is SoundCloudAudioTrack -> GetEmbed(track).soundcloud()
+            is TwitchStreamAudioTrack -> GetEmbed(track).twitch()
             else -> GetEmbed(track).default()
         }
     }
@@ -51,7 +53,7 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
             return message.build()
         }
 
-        fun twitch() :MessageEmbed {
+        fun twitch(): MessageEmbed {
             message.setColor(TWITCH_PURPLE)
             return message.build()
         }
