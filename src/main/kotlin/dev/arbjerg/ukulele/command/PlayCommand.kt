@@ -117,7 +117,7 @@ class PlayCommand(
     }
 
     override fun HelpContext.provideHelp() {
-        addUsage("<url>")
-        addDescription("Add the given track to the queue")
+        addUsage("<url>[|<url>]")
+        addDescription("Add the given track to the queue.  Multiple tracks can be provided by separating the URLs with a pipe character |.")
     }
 }
