@@ -23,18 +23,13 @@ class PlayCommand(
     override suspend fun CommandContext.invoke() {
         if (!ensureVoiceChannel()) return
 
-        players.get(guild, guildProperties).lastChannel = channel
-        val identifiers = argumentText.split("|")
-        identifiers.forEach { identifier ->
-            var validIdentifier = identifier
-            if (!checkValidUrl(identifier)) {
-                if (identifiers.size == 1) {
-                    validIdentifier = "ytsearch:$validIdentifier"
-                }
-            }
-
-            apm.loadItem(validIdentifier, Loader(this, player, validIdentifier))
+        var identifier = argumentText
+        if (!checkValidUrl(identifier)) {
+            identifier = "ytsearch:$identifier"
         }
+
+        players.get(guild, guildProperties).lastChannel = channel
+        apm.loadItem(identifier, Loader(this, player, identifier))
     }
 
     fun CommandContext.ensureVoiceChannel(): Boolean {
