@@ -24,7 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-configuration-processor")
 
     // https://mvnrepository.com/artifact/net.dv8tion/JDA
-    implementation("net.dv8tion:JDA:5.0.0-beta.8")
+    implementation("net.dv8tion:JDA:5.0.0-beta.9")
     implementation("com.github.walkyst:lavaplayer-fork:1.4.0")
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation("com.fasterxml.jackson.core:jackson-core:2.14.2")
