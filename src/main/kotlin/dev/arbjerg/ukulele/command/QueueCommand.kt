@@ -21,12 +21,24 @@ class QueueCommand(
     }
 
     private fun printQueue(player: Player, pageIndex: Int): String {
+        val repeatTrackMessage = when(player.repeatTrack) {
+            true -> "Repeat Track is on.\r"
+            false -> "Repeat Track is off.\r"
+        }
+
+        val queueLoopingMessage = when(player.queueLooping) {
+            true -> "Queue Looping is on.\r"
+            false -> "Queue Looping is off.\r"
+        }
+
         val totalDuration = player.remainingDuration
         val tracks = player.tracks
         if (tracks.isEmpty())
-            return "The queue is empty."
+            return repeatTrackMessage + queueLoopingMessage + "The queue is empty."
 
         return buildString {
+            append(repeatTrackMessage)
+            append(queueLoopingMessage)
             append(paginateQueue(tracks, pageIndex))
             append("\nThere are **${tracks.size}** tracks with a remaining length of ")
 

@@ -104,7 +104,6 @@ class Player(private val beans: Beans, guildProperties: GuildProperties) : Audio
             }
         }
 
-        repeatTrack = false
         return skipped
     }
 
