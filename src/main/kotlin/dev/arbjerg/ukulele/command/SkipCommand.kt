@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component
 @Component
 class SkipCommand : Command("skip", "s") {
     override suspend fun CommandContext.invoke() {
+        val args = argumentText.split("\\s+".toRegex())
         when {
-            argumentText.isBlank() -> skipNext()
-            argumentText.toIntOrNull() != null -> skipIndex(argumentText.toInt())
-            argumentText.split("\\s+".toRegex()).size == 2 -> skipRange()
+            args.isEmpty() || args[0].isEmpty() -> skipNext()
+            else -> skipIndex(args.last().toInt())
         }
     }
 
@@ -21,7 +21,7 @@ class SkipCommand : Command("skip", "s") {
     }
 
     private fun CommandContext.skipIndex(i: Int) {
-        val ind = (i-1).coerceAtLeast(0)
+        val ind = (i - 1).coerceAtLeast(0)
         if (ind == 0) {
             player.seek(0)
             reply("Skipping to current track (restarting)")
@@ -31,18 +31,27 @@ class SkipCommand : Command("skip", "s") {
         }
     }
 
-    private fun CommandContext.skipRange() {
-        val args = argumentText.split("\\s+".toRegex())
+    private fun CommandContext.printSkipped(skipped: List<AudioTrack>) {
+        val playing = when (player.tracks.isEmpty()) {
+            true -> "The queue is empty and the player is stopped."
+            false -> "Playing `${player.tracks.first().info.title}`"
+        }
 
-        val n1 = (args[0].toInt() - 1).coerceAtLeast(0)
-        val n2 = (args[1].toInt() - 1).coerceAtLeast(0)
-        printSkipped(player.skip(n1..n2))
-    }
+        val skippedMessage = when (skipped.size) {
+            0 -> getHelp(this.command).toString()
+            1 -> """
+            Skipped `${skipped.first().info.title}`
+            
+            `${playing}`
+            """.trimIndent()
+            else -> """
+                Skipped `${skipped.size} tracks`
+                
+                `${playing}`
+            """.trimIndent()
+        }
 
-    private fun CommandContext.printSkipped(skipped: List<AudioTrack>) = when(skipped.size) {
-        0 -> replyHelp()
-        1 -> reply("Skipped `${skipped.first().info.title}`")
-        else -> reply("Skipped `${skipped.size} tracks`")
+        reply(skippedMessage)
     }
 
     override fun HelpContext.provideHelp() {

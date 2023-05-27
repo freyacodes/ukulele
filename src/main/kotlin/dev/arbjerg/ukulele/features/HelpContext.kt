@@ -22,6 +22,8 @@ class HelpContext(private val commandContext: CommandContext, private val comman
     }
 
     fun buildMessage() = MessageCreateBuilder()
-            .addContent(MarkdownUtil.codeblock("md", lines.joinToString(separator = "\n")))
+            .addContent(MarkdownUtil.codeblock("md", toString()))
             .build()
+
+    override fun toString() = lines.joinToString(separator = "\n")
 }

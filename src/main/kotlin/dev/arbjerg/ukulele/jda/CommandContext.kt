@@ -2,7 +2,6 @@ package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.audio.Player
 import dev.arbjerg.ukulele.audio.PlayerRegistry
-import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.features.HelpContext
 import net.dv8tion.jda.api.entities.Guild
@@ -27,8 +26,7 @@ class CommandContext(
 ) {
     @Component
     class Beans(
-            val players: PlayerRegistry,
-            val botProps: BotProps
+            val players: PlayerRegistry
     ) {
         lateinit var commandManager: CommandManager
     }
@@ -54,9 +52,13 @@ class CommandContext(
     }
 
     fun replyHelp(forCommand: Command = command) {
+        channel.sendMessage(getHelp(forCommand)).queue()
+    }
+
+    fun getHelp(forCommand: Command): MessageCreateData {
         val help = HelpContext(this, forCommand)
         forCommand.provideHelp0(help)
-        channel.sendMessage(help.buildMessage()).queue()
+        return help.buildMessage()
     }
 
     fun handleException(t: Throwable) {
