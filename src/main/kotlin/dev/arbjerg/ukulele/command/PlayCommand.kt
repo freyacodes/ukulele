@@ -24,7 +24,11 @@ class PlayCommand(
         if (!ensureVoiceChannel()) return
 
         players.get(guild, guildProperties).lastChannel = channel
-        val identifiers = argumentText.split("|")
+        var identifiers = argumentText.split(PIPE_CHAR)
+        if (identifiers.isNotEmpty() && identifiers.first().isEmpty()) {
+            identifiers = botProps.playlist.split(PIPE_CHAR)
+        }
+
         identifiers.forEach { identifier ->
             var validIdentifier = identifier
             if (!checkValidUrl(identifier)) {
@@ -119,5 +123,9 @@ class PlayCommand(
     override fun HelpContext.provideHelp() {
         addUsage("<url>[|<url>]")
         addDescription("Add the given track to the queue.  Multiple tracks can be provided by separating the URLs with a pipe character |.")
+    }
+
+    companion object {
+        const val PIPE_CHAR = "|"
     }
 }
