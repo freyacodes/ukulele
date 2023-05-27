@@ -33,7 +33,7 @@ class PlayCommand(
                 }
             }
 
-            apm.loadItem(validIdentifier, Loader(this, player, validIdentifier))
+            apm.loadItemOrdered(this, validIdentifier, Loader(this, player, validIdentifier))
         }
     }
 
