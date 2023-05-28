@@ -13,6 +13,7 @@ class LavaplayerConfig {
     fun playerManager(): AudioPlayerManager {
         val apm = DefaultAudioPlayerManager()
         AudioSourceManagers.registerRemoteSources(apm) // Here's where the YouTube config gets loaded in with null user/pass.
+        AudioSourceManagers.registerLocalSource(apm)
         return apm
     }
 

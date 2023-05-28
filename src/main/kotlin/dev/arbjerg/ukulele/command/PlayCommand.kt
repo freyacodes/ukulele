@@ -30,14 +30,7 @@ class PlayCommand(
         }
 
         identifiers.forEach { identifier ->
-            var validIdentifier = identifier
-            if (!checkValidUrl(identifier)) {
-                if (identifiers.size == 1) {
-                    validIdentifier = "ytsearch:$validIdentifier"
-                }
-            }
-
-            apm.loadItemOrdered(this, validIdentifier, Loader(this, player, validIdentifier))
+            apm.loadItemOrdered(this, identifier, Loader(this, player, identifier))
         }
     }
 
@@ -63,11 +56,6 @@ class PlayCommand(
         }
 
         return true
-    }
-
-    fun checkValidUrl(url: String): Boolean {
-        return url.startsWith("http://")
-                || url.startsWith("https://")
     }
 
     inner class Loader(
