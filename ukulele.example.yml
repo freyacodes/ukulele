@@ -6,3 +6,5 @@ config:
   game: ""               # Status message shown when your bot is online
   trackDurationLimit: 0  # Maximum limit of track duration in minutes. Set to 0 for unlimited
   announceTracks: false  # Announce the start of a track
+  queueLooping: false    # Queue looping true/false, default is false.
+  repeatTrack: false      # Repeat track true/false, default is false.
