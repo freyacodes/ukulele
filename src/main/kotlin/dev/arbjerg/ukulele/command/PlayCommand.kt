@@ -30,7 +30,7 @@ class PlayCommand(
         }
 
         identifiers.forEach { identifier ->
-            apm.loadItemOrdered(this, identifier, Loader(this, player, identifier))
+            apm.loadItemOrdered(this, identifier.trim(), Loader(this, player, identifier))
         }
     }
 
