@@ -30,7 +30,11 @@ class PlayCommand(
         }
 
         identifiers.forEach { identifier ->
-            apm.loadItemOrdered(this, identifier.trim(), Loader(this, player, identifier))
+            // identifier format is:  [Some Label] Source URL or local drive file path
+            val source = identifier.trim().replace("^\\s*\\[.*]\\s*".toRegex(), "")
+            if (source.isNotEmpty()) {
+                apm.loadItemOrdered(this, source, Loader(this, player, identifier))
+            }
         }
     }
 
