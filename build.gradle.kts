@@ -24,8 +24,7 @@ dependencies {
     // The snapshot version published in jitpack has this, so it is utilized for now.
     // Eventually, a full upgrade to JDA 5.x will be necessary.
     implementation("com.github.DV8FromTheWorld:JDA:legacy~v4-SNAPSHOT")
-    //implementation("com.sedmelluq:lavaplayer:1.3.78")
-    implementation("com.github.walkyst.lavaplayer-fork:lavaplayer:1.4.0")
+    implementation("dev.arbjerg:lavaplayer:1.5.0")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
