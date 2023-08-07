@@ -16,7 +16,10 @@ class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
                 ?: return replyHelp()
 
         val formerVolume = player.volume
+        
+        if (num > 150) num = 150
         player.volume = num
+        
         reply("Changed volume from ${formerVolume}% to ${player.volume}%.")
     }
 
