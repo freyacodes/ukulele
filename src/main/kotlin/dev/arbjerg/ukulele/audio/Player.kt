@@ -11,8 +11,10 @@ import dev.arbjerg.ukulele.command.NowPlayingCommand
 import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.data.GuildPropertiesService
+import dev.arbjerg.ukulele.features.LeaveOnIdleService
 import net.dv8tion.jda.api.audio.AudioSendHandler
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.Guild
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -20,13 +22,18 @@ import java.nio.Buffer
 import java.nio.ByteBuffer
 
 
-class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAdapter(), AudioSendHandler {
+class Player(
+        private val beans: Beans,
+        guildProperties: GuildProperties,
+        private val guild: Guild
+) : AudioEventAdapter(), AudioSendHandler {
     @Component
     class Beans(
             val apm: AudioPlayerManager,
             val guildProperties: GuildPropertiesService,
             val nowPlayingCommand: NowPlayingCommand,
-            val botProps: BotProps
+            val botProps: BotProps,
+            val leaveOnIdleService: LeaveOnIdleService
     )
 
     private val guildId = guildProperties.guildId
@@ -127,14 +134,24 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
         if (beans.botProps.announceTracks) {
             lastChannel?.sendMessage(beans.nowPlayingCommand.buildEmbed(track))?.queue()
         }
+
+        log.debug("onTrackStart called for player in guild {}", guild.idLong)
+        beans.leaveOnIdleService.destroyTimer(guild)
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
+        log.debug("onTrackEnd called for player in guild {}", guild.idLong)
         if (isRepeating && endReason.mayStartNext) {
             queue.add(track.makeClone())
         }
-        val new = queue.take() ?: return
-        player.playTrack(new)
+        val new = queue.take()
+        if (new != null) {
+            player.playTrack(new)
+        }
+
+        if (remainingDuration <= 0) {
+            beans.leaveOnIdleService.onQueueEmpty(guild)
+        }
     }
 
     override fun onTrackException(player: AudioPlayer, track: AudioTrack, exception: FriendlyException) {
