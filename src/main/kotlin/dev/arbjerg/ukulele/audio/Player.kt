@@ -12,7 +12,7 @@ import dev.arbjerg.ukulele.config.BotProps
 import dev.arbjerg.ukulele.data.GuildProperties
 import dev.arbjerg.ukulele.data.GuildPropertiesService
 import net.dv8tion.jda.api.audio.AudioSendHandler
-import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -125,7 +125,7 @@ class Player(val beans: Beans, guildProperties: GuildProperties) : AudioEventAda
 
     override fun onTrackStart(player: AudioPlayer, track: AudioTrack) {
         if (beans.botProps.announceTracks) {
-            lastChannel?.sendMessage(beans.nowPlayingCommand.buildEmbed(track))?.queue()
+            lastChannel?.sendMessageEmbeds(beans.nowPlayingCommand.buildEmbed(track))?.queue()
         }
     }
 
