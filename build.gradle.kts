@@ -19,10 +19,6 @@ repositories {
 }
 
 dependencies {
-    // The 4.x version of JDA specifically needs a UDP fix from this commit:
-    // https://github.com/DV8FromTheWorld/JDA/commit/39ba0c2682ad99dbec88240cb8ea9d1ff7162ae9
-    // The snapshot version published in jitpack has this, so it is utilized for now.
-    // Eventually, a full upgrade to JDA 5.x will be necessary.
     implementation("com.github.DV8FromTheWorld:JDA:v5.0.0-beta.13")
     implementation("dev.arbjerg:lavaplayer:1.5.0")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
