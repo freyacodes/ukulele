@@ -37,7 +37,7 @@ class NowPlayingCommand : Command ("nowplaying", "np") {
 
         //Set up common parts of the embed
         val message = EmbedBuilder()
-                .setTitle(track.info.title, track.info.uri)
+                .setTitle( track.info.author + " -- " + track.info.title, track.info.uri)
                 .setFooter("Source: ${track.sourceManager.sourceName}")
 
         //Prepare embeds for overrides.
