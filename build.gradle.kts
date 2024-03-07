@@ -20,7 +20,9 @@ repositories {
 
 dependencies {
     implementation("com.github.DV8FromTheWorld:JDA:v5.0.0-beta.20")
-    implementation("dev.arbjerg:lavaplayer:2.1.0")
+    // Use a commit version right after 2.1.0
+    // See https://github.com/lavalink-devs/lavaplayer/pull/70
+    implementation("com.github.lavalink-devs.lavaplayer:lavaplayer:727959e9f6")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
