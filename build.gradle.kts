@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation("com.github.DV8FromTheWorld:JDA:v5.0.0-beta.20")
-    implementation("dev.arbjerg:lavaplayer:2.0.1")
+    implementation("dev.arbjerg:lavaplayer:2.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 
     runtimeOnly("com.h2database:h2")
