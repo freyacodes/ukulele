@@ -2,8 +2,9 @@ version: "3.7"
 
 services:
   ukulele:
-    image: ghcr.io/freyacodes/ukulele:master
-    restart: always
+    container_name: ukulele
+    image: ghcr.io/jocull/ukulele:jda-5
+    restart: unless-stopped
     environment:
       CONFIG_DATABASE: ./db/database # Database location overwrite so mounting works
     volumes:

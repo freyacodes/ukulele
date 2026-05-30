@@ -2,7 +2,8 @@ package dev.arbjerg.ukulele.features
 
 import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
-import net.dv8tion.jda.api.MessageBuilder
+import net.dv8tion.jda.api.utils.MarkdownUtil
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 
 class HelpContext(private val commandContext: CommandContext, private val command: Command) {
     private val lines = mutableListOf<String>()
@@ -20,7 +21,7 @@ class HelpContext(private val commandContext: CommandContext, private val comman
         lines.add("# " + text.trim())
     }
 
-    fun buildMessage() = MessageBuilder()
-            .appendCodeBlock(lines.joinToString(separator = "\n"), "md")
-            .build()
+    fun buildMessage() = MessageCreateBuilder()
+        .addContent(MarkdownUtil.codeblock("md", lines.joinToString(separator = "\n")))
+        .build()
 }
