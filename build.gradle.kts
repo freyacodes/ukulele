@@ -13,6 +13,9 @@ group = "dev.arbjerg"
 version = "0.1"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
+// r2dbc-h2 1.1.0.RELEASE was compiled against H2 2.4.240; Spring Boot BOM would downgrade to 2.3.232
+extra["h2.version"] = "2.4.240"
+
 repositories {
     mavenCentral()
     flatDir {
