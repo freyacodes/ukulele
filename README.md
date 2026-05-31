@@ -5,6 +5,10 @@ Ukulele is a bot made by the creator and collaborators of FredBoat. The concept 
 
 The bot is self-contained and only requires Java 25 to run. This bot uses some of the underlying technology behind Lavalink without actually requiring you to host Lavalink.
 
+> [!WARNING]
+> This bot was newly revived on May 31st 2026 after being outdated for a couple of years.
+> Testing has been minimal and part of it might be broken. 
+
 ## Features
 - Basic player commands (::play, ::list, ::skip, ::shuffle)
 - Volume command
