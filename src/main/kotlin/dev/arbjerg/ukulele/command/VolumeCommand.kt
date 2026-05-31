@@ -6,6 +6,8 @@ import dev.arbjerg.ukulele.jda.Command
 import dev.arbjerg.ukulele.jda.CommandContext
 import org.springframework.stereotype.Component
 
+val PERMITTED_VOLUME_RANGE = 0..150
+
 @Component
 class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
     override suspend fun CommandContext.invoke() {
@@ -16,14 +18,14 @@ class VolumeCommand(val players: PlayerRegistry) : Command("volume", "v") {
                 ?: return replyHelp()
 
         val formerVolume = player.volume
-        player.volume = num
+        player.volume = num.coerceIn(PERMITTED_VOLUME_RANGE)
         reply("Changed volume from ${formerVolume}% to ${player.volume}%.")
     }
 
     override fun HelpContext.provideHelp() {
         addUsage("")
         addDescription("Displays the current volume.")
-        addUsage("<0-150>%")
+        addUsage("<${PERMITTED_VOLUME_RANGE.first}-${PERMITTED_VOLUME_RANGE.last}>%")
         addDescription("Sets the volume to the given percentage.")
     }
 }
