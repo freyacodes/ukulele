@@ -2,6 +2,7 @@ package dev.arbjerg.ukulele.jda
 
 import dev.arbjerg.ukulele.config.BotProps
 import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.sharding.ShardManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -28,7 +29,7 @@ class JdaConfig {
         val intents = listOf(
             GUILD_VOICE_STATES,
             GUILD_MESSAGES,
-            GUILD_BANS,
+            GUILD_MODERATION,
             DIRECT_MESSAGES,
             MESSAGE_CONTENT
         )

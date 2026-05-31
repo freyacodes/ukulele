@@ -7,6 +7,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 ukulele.yml
+ukulele.jar
 
 ### STS ###
 .apt_generated
