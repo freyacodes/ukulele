@@ -3,7 +3,7 @@
 
 Ukulele is a bot made by the creator and collaborators of FredBoat. The concept is to replicate FredBoat while keeping it simple. The original stack is engineered for serving millions of servers, and is thus too complex to selfhost.
 
-The bot is self-contained and only requires Java 17 to run. This bot uses some of the underlying technology behind Lavalink without actually requiring you to host Lavalink.
+The bot is self-contained and only requires Java 25 to run. This bot uses some of the underlying technology behind Lavalink without actually requiring you to host Lavalink.
 
 ## Features
 - Basic player commands (::play, ::list, ::skip, ::shuffle)
@@ -13,7 +13,7 @@ The bot is self-contained and only requires Java 17 to run. This bot uses some o
 ## Host it yourself
 
 ### Manual
-- Install Java 11
+- Install Java 25
 - Make a copy of `ukulele.example.yml` and rename it to `ukulele.yml`
 - Input the bot token [(guide)](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 - Make sure to enable 'Message Content Intent' in your bot settings on Discord

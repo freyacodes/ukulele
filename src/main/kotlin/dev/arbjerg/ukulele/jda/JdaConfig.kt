@@ -1,15 +1,16 @@
 package dev.arbjerg.ukulele.jda
 
+import club.minnced.discord.jdave.interop.JDaveSessionFactory
 import dev.arbjerg.ukulele.config.BotProps
+import net.dv8tion.jda.api.audio.AudioModuleConfig
 import net.dv8tion.jda.api.entities.Activity
-import net.dv8tion.jda.api.requests.GatewayIntent
-import net.dv8tion.jda.api.sharding.ShardManager
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
 import net.dv8tion.jda.api.requests.GatewayIntent.*
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder
+import net.dv8tion.jda.api.sharding.ShardManager
 import net.dv8tion.jda.api.utils.cache.CacheFlag
 import net.dv8tion.jda.api.utils.messages.MessageRequest
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import javax.security.auth.login.LoginException
 import kotlin.concurrent.thread
 
@@ -35,6 +36,7 @@ class JdaConfig {
         )
 
         val builder = DefaultShardManagerBuilder.create(botProps.token, intents)
+            .setAudioModuleConfig(AudioModuleConfig().withDaveSessionFactory(JDaveSessionFactory()))
             .disableCache(
                 CacheFlag.ACTIVITY,
                 CacheFlag.EMOJI,

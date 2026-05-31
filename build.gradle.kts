@@ -11,7 +11,7 @@ plugins {
 
 group = "dev.arbjerg"
 version = "0.1"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_25
 
 // r2dbc-h2 1.1.0.RELEASE was compiled against H2 2.4.240; Spring Boot BOM would downgrade to 2.3.232
 extra["h2.version"] = "2.4.240"
@@ -26,6 +26,9 @@ repositories {
 
 dependencies {
     implementation("net.dv8tion:JDA:6.4.1")
+    implementation("club.minnced:jdave-api:0.1.8")
+    runtimeOnly("club.minnced:jdave-native-linux-x86-64:0.1.8")
+    runtimeOnly("club.minnced:jdave-native-linux-aarch64:0.1.8")
     implementation("dev.arbjerg:lavaplayer:2.2.6")
     implementation("dev.lavalink.youtube:v2:1.18.1")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
@@ -42,6 +45,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+}
+
+tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
+    jvmArgs("--enable-native-access=ALL-UNNAMED")
 }
 
 tasks.withType<BootJar> {
@@ -62,6 +69,6 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     compilerOptions {
         freeCompilerArgs.add("-Xjsr305=strict")
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_25)
     }
 }
