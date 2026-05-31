@@ -42,10 +42,12 @@ cp ukulele.example.yml ukulele.yml
 # Open ukulele.yml and make config changes
 
 # Now simply run run docker-compose 
-docker-compose up -d
+docker-compose up
 ```
 
 To run the container in detached mode simply add `-d` to the arguments of the run command.
+
+Run `docker-compose pull && docker-compose up -d` to update the container.
 
 ## Contributing
 Pull requests are welcome! Look through the issues and/or create one if you have an idea.
