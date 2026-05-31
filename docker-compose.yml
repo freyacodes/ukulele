@@ -1,9 +1,7 @@
-version: "3.7"
-
 services:
   ukulele:
     container_name: ukulele
-    image: ghcr.io/jocull/ukulele:jda-5
+    image: ghcr.io/freyacodes/ukulele:main
     restart: unless-stopped
     environment:
       CONFIG_DATABASE: ./db/database # Database location overwrite so mounting works
