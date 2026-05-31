@@ -29,6 +29,8 @@ dependencies {
     implementation("club.minnced:jdave-api:0.1.8")
     runtimeOnly("club.minnced:jdave-native-linux-x86-64:0.1.8")
     runtimeOnly("club.minnced:jdave-native-linux-aarch64:0.1.8")
+    runtimeOnly("club.minnced:jdave-native-darwin:0.1.8")
+    runtimeOnly("club.minnced:jdave-native-win-x86-64:0.1.8")
     implementation("dev.arbjerg:lavaplayer:2.2.6")
     implementation("dev.lavalink.youtube:v2:1.18.1")
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
