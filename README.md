@@ -23,6 +23,10 @@ The bot is self-contained and only requires Java 25 to run. This bot uses some o
 - Make sure to enable 'Message Content Intent' in your bot settings on Discord
 - Run `./ukulele` to build and run the application (Windows users use the .bat files via commandline)
 
+> [!NOTE]
+> If you get an error such as `IllegalArgumentException: Cannot open library:` mentioning jdave when trying to play music,
+> you might be running on an old or unsupported system. Try using the Docker image instead.
+
 ### Using Docker
 #### Requirements
 - Docker (Engine: 18.06.0+)
