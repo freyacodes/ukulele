@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:25-jre-latest
+FROM eclipse-temurin:25-jre-noble
 RUN groupadd -r -g 999 ukulele && useradd -rd /opt/ukulele -g ukulele -u 999 -ms /bin/bash ukulele && mkdir -p /opt/ukulele/tmp && chown ukulele:ukulele /opt/ukulele/tmp
 COPY --chown=ukulele:ukulele build/libs/ukulele.jar /opt/ukulele/ukulele.jar
 USER ukulele
