@@ -80,6 +80,11 @@ class PlayCommand(
         }
 
         override fun playlistLoaded(playlist: AudioPlaylist) {
+            if (playlist.selectedTrack != null) {
+                this.trackLoaded(playlist.selectedTrack);
+                return
+            }
+
             val accepted = playlist.tracks.filter { !it.isOverDurationLimit }
             val filteredCount = playlist.tracks.size - accepted.size
             if (accepted.isEmpty()) {
