@@ -1,8 +1,11 @@
 config:
-  token: ""              # Your discord bot token
-  shards: 1              # Number of shards to create. 1 works for most bots
-  prefix: "::"           # Prefix to invoke commands with
-  database: "./database" # Database filename
-  game: ""               # Status message shown when your bot is online
-  trackDurationLimit: 0  # Maximum limit of track duration in minutes. Set to 0 for unlimited
-  announceTracks: false  # Announce the start of a track
+  token: ""                        # Your discord bot token
+  shards: 1                        # Number of shards to create. 1 works for most bots
+  prefix: "::"                     # Prefix to invoke commands with
+  database: "./database"           # Database filename
+  game: ""                         # Status message shown when your bot is online
+  trackDurationLimit: 0            # Maximum limit of track duration in minutes. Set to 0 for unlimited
+  announceTracks: false            # Announce the start of a track
+  youtubeRemoteCipherUrl: ""       # URL for yt-cipher solver
+  youtubeRemoteCipherPassword: ""  # Password for yt-cipher solver
+  youtubeRemoteCipherUserAgent: "" # User agent for yt-cipher solver

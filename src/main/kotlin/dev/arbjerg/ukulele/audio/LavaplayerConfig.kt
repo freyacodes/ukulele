@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.container.MediaContainerRegistry
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers.registerRemoteSources
+import dev.arbjerg.ukulele.config.BotProps
 import dev.lavalink.youtube.YoutubeAudioSourceManager
 import dev.lavalink.youtube.YoutubeSourceOptions
 import org.springframework.context.annotation.Bean
@@ -12,15 +13,15 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class LavaplayerConfig {
     @Bean
-    fun playerManager(): AudioPlayerManager {
+    fun playerManager(botProps: BotProps): AudioPlayerManager {
         val ytOptions = YoutubeSourceOptions()
         .setAllowSearch(true)
         .setAllowDirectVideoIds(true)
         .setAllowDirectPlaylistIds(true)
         .setRemoteCipher(
-            "https://cipher.kikkia.dev/",
-            null,
-            "ukulele"
+            botProps.youtubeRemoteCipherUrl,
+            botProps.youtubeRemoteCipherPassword,
+            botProps.youtubeRemoteCipherUserAgent,
         )
 
         val ytSourceManager = YoutubeAudioSourceManager(

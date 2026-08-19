@@ -10,5 +10,8 @@ class BotProps(
         var database: String = "./database",
         var game: String = "",
         var trackDurationLimit: Int = 0,
-        var announceTracks: Boolean = false
+        var announceTracks: Boolean = false,
+        var youtubeRemoteCipherUrl: String = "",
+        var youtubeRemoteCipherPassword: String = "",
+        var youtubeRemoteCipherUserAgent: String = "",
 )
