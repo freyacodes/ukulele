@@ -18,11 +18,14 @@ class LavaplayerConfig {
         .setAllowSearch(true)
         .setAllowDirectVideoIds(true)
         .setAllowDirectPlaylistIds(true)
-        .setRemoteCipher(
-            botProps.youtubeRemoteCipherUrl,
-            botProps.youtubeRemoteCipherPassword,
-            botProps.youtubeRemoteCipherUserAgent,
-        )
+
+        if (!botProps.youtubeRemoteCipherUrl.isNullOrEmpty()) {
+            ytOptions.setRemoteCipher(
+                botProps.youtubeRemoteCipherUrl,
+                botProps.youtubeRemoteCipherPassword,
+                botProps.youtubeRemoteCipherUserAgent,
+            )
+        }
 
         val ytSourceManager = YoutubeAudioSourceManager(
             ytOptions,

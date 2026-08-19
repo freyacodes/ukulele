@@ -6,6 +6,6 @@ config:
   game: ""                         # Status message shown when your bot is online
   trackDurationLimit: 0            # Maximum limit of track duration in minutes. Set to 0 for unlimited
   announceTracks: false            # Announce the start of a track
-  youtubeRemoteCipherUrl: ""       # URL for yt-cipher solver
-  youtubeRemoteCipherPassword: ""  # Password for yt-cipher solver
-  youtubeRemoteCipherUserAgent: "" # User agent for yt-cipher solver
+  youtubeRemoteCipherUrl: null       # URL for yt-cipher solver
+  youtubeRemoteCipherPassword: null  # Password for yt-cipher solver
+  youtubeRemoteCipherUserAgent: null # User agent for yt-cipher solver
