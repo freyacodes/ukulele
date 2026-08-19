@@ -1,11 +1,13 @@
 config:
-  token: ""                        # Your discord bot token
-  shards: 1                        # Number of shards to create. 1 works for most bots
-  prefix: "::"                     # Prefix to invoke commands with
-  database: "./database"           # Database filename
-  game: ""                         # Status message shown when your bot is online
-  trackDurationLimit: 0            # Maximum limit of track duration in minutes. Set to 0 for unlimited
-  announceTracks: false            # Announce the start of a track
-  youtubeRemoteCipherUrl: null       # URL for yt-cipher solver
-  youtubeRemoteCipherPassword: null  # Password for yt-cipher solver
-  youtubeRemoteCipherUserAgent: null # User agent for yt-cipher solver
+  token: ""              # Your discord bot token
+  shards: 1              # Number of shards to create. 1 works for most bots
+  prefix: "::"           # Prefix to invoke commands with
+  database: "./database" # Database filename
+  game: ""               # Status message shown when your bot is online
+  trackDurationLimit: 0  # Maximum limit of track duration in minutes. Set to 0 for unlimited
+  announceTracks: false  # Announce the start of a track
+  # Optional yt-cipher server, helps to pass some anti-bot challenges.
+  # See https://github.com/kikkia/yt-cipher for details.
+  youtubeRemoteCipherUrl: null
+  youtubeRemoteCipherPassword: null
+  youtubeRemoteCipherUserAgent: "ukulele"
